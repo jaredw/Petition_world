@@ -1,0 +1,4 @@
+#ignore project files 
+*.sublime_project
+#ignore svn stuff
+.svn
