@@ -11,7 +11,8 @@
           'showyourvote.org': 'ABQIAAAAD8M9IMy5hGBBbqIohA4R4hQ8ELJusaStVeLp-McODOsiHrSWGhTwoDA6OSVhixqIn2IyFPsBBWLRlA',
           'www.showyourvote.org': 'ABQIAAAAD8M9IMy5hGBBbqIohA4R4hQ8ELJusaStVeLp-McODOsiHrSWGhTwoDA6OSVhixqIn2IyFPsBBWLRlA',
           'show-your-vote.appspot.com': 'ABQIAAAA-O3c-Om9OcvXMOJXreXHAxRlOb26qSyU154aZeLwOrF4C7-DphSw7JoLuXrcDjUb_7h-S1txkSCY7A',
-	  'syv-test.appspot.com': 'ABQIAAAALrtqAVfQq7mfTTl0EBb7vBT0h0tJ-bKGUcjUByQY52vcgVjYfBTGUDVuRrptlbTJqV8QJhQ1sQgxDQ'
+	  'syv-test.appspot.com': 'ABQIAAAALrtqAVfQq7mfTTl0EBb7vBT0h0tJ-bKGUcjUByQY52vcgVjYfBTGUDVuRrptlbTJqV8QJhQ1sQgxDQ',
+          'earthhour.interesting.com.au':'ABQIAAAAR4dJSBii5YOC7_avESB3UhSREOJVzwcXxPhGJSAmogrttN-hZxRP8oi7AcITKR4T74UqgppixA8RSw'
         }[location.host] +
         '"><\/script>'
       );
@@ -39,7 +40,7 @@
  <div id="explore_map"></div>
       </div>
 <br>
-      <div class="right">
+      <div class="right" style="display:none">
            <div style="overflow: hidden; width:211px; height:25px; text-align: center; font-size: 20px; font-weight: bold; border: 1px solid #cccccc;margin-top:3px; background-color:{{bg_color}}">
              <!-- <span id="prev" >&#8592;</span> -->
              <span id="stats" style="background-color:{{bg_color}}" >
@@ -50,7 +51,8 @@
              <!-- <span id="next" >&#8594;</span> -->
            </div>
         </div>
-		<div class="right" style="background-color:{{bg_color}}">
+  <div class="comment_section">
+		<div class="right" style="display:none; background-color:{{bg_color}}">
         <div id="comments_wrapper" style="background-color:{{bg_color}}">
           <!-- Define the div tag where the gadget will be inserted. -->
           <div id="div-6448190187886641253" style="width:211px;border:1px solid #cccccc;max-height:394px;margin-left:2px;background-color:{{bg_color}}"></div>
@@ -82,6 +84,7 @@ google.friendconnect.container.setParentUrl('/gfc' /* location of rpc_relay.html
         </script>
       </div>
     </div>
+
 <!--    <div class="bottom">
       <a id="big_button" href="http://www.youtube.com/user/Cop15">
       <img src="images/raise_your_voice.png" />
