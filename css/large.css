@@ -1,0 +1,166 @@
+body {
+  padding: 0 0px;
+  font: normal 50% "Lucida Grande", Helvetica, Verdana, Arial;
+}
+
+p { margin: 10px 0; }
+
+#show_your_vote {
+  overflow: hidden;
+  width: 600px;
+  height: 500px;
+  background-color: red;
+  border: 1px solid #cccccc;
+}
+.logo {
+  margin-right: 10px;
+}
+.gfc.signin {
+  width: 200px;
+  margin: 5px 0 3px 10px;
+}
+
+.top {
+  
+  width: 100%;
+  height: 450px;
+}
+.bottom {
+  overflow: hidden;
+  height: 120;
+}
+.left {
+  float: left;
+}
+.right {
+  float: right;
+  
+}
+
+#explore_map {
+  width: 380px;
+  height: 427px;
+  background-color: red;
+  margin: 3px 0 0px 0px;
+}
+
+#stats {
+  border: 0px solid #cccccc;
+  height: 60px;
+  width: 211px;
+  background-color: #fdf7eb;
+  margin: 3px 3px 3px 3px;
+}
+#comments_wrapper {
+  background-color: #fdf7eb;
+  margin: 3px 3px 3px 3px;
+  height:395px;
+  width:211px;
+  padding:1px;
+}
+
+.ui-tabs .ui-tabs-panel {
+  padding:2px 0 0 0 !important;
+}
+.ui-tabs .ui-tabs-nav li a {
+  font-size: 150%;
+  overflow: hidden;
+  padding: 0.3em 0.6em;
+  height: 22px;
+}
+
+#vote #why {
+  float: left;
+  border: 0px solid #cccccc;
+  width: 598px;
+  height: 50px;
+  margin: 0px 0px 0px 0;
+  padding: 0px;
+}
+
+#vote #vote_map {
+float: right;	
+border: 1px solid #cccccc;		
+}
+
+#vote form {
+  float: left;
+  border: 0px solid #cccccc;
+  width: 588px;
+  height: 380px;
+  margin: 2px 0 2px 0;
+  padding: 5px;
+}
+
+#vote #submit{
+	margin: 0 0 0 20px;
+}
+
+form.cmxform {
+  text-align: left;
+  font-size: 1.1em;
+}
+#big_button {
+  float: left;
+  display: block;
+  margin: 12px;
+}
+#videoBar-bar {
+  margin: 3px;
+  float: right;
+}
+
+#legal {
+  clear: both;
+  text-align: center;
+  vertical-align: text-top;
+  width: 598px;
+  height: 10px;
+  margin: 0px 0 0px 0;
+  padding: 0px;
+  background-color: #fdf7eb;
+  border: none;
+}
+
+#explore_map p {
+  clear: both;
+}
+
+.map_comments {
+  margin: 15px 0;
+  width: 336px;
+  height: 337px;
+}
+
+.picture_set {
+  list-style-type: none;
+  width: 200px;
+  overflow: auto;
+}
+
+.picture_set li {
+  float: left;
+  margin-right: 5px;
+  margin-bottom: 5px;
+}
+
+.picture_set li img {
+  width: 45px;
+  height: 45px;
+}
+
+#embed {
+  font-size: 1.8em;
+  padding: 60px;
+}
+
+#embed pre {
+  overflow: auto;
+  border: 1px solid black;
+}
+
+#fc-opensocial-api, #fc-opensocial-api iframe, #fc-opensocial-api div {
+  display: none !important;
+  height: 0px !important;
+  width: 0px !important;
+}

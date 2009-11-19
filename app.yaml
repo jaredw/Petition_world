@@ -1,0 +1,31 @@
+application: show-your-vote
+version: 6
+runtime: python
+api_version: 1
+
+handlers:
+- url: /css
+  static_dir: css
+
+- url: /js
+  static_dir: js
+
+- url: /images
+  static_dir: images
+
+- url: /gfc
+  static_dir: gfc
+
+- url: /remote_api
+  script: handler.py
+  login: admin
+
+- url: /_ah/queue/deferred
+  script: deferred/
+  login: admin
+
+- url: /.*
+  script: main.py
+
+
+

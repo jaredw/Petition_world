@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/188/trunk/petition_world/templates/main
+END
+vote.html
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/!svn/ver/149/trunk/petition_world/templates/main/vote.html
+END
+explore.html
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/!svn/ver/158/trunk/petition_world/templates/main/explore.html
+END
+learn.html
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/!svn/ver/97/trunk/petition_world/templates/main/learn.html
+END
+base.html
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/!svn/ver/188/trunk/petition_world/templates/main/base.html
+END

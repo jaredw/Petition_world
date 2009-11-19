@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+{% block includes %}
+    <link type="text/css" href="/css/forms.css" rel="stylesheet" />
+    <script src="http://dev.jquery.com/view/trunk/plugins/validate/jquery.validate.js"></script>
+    <script src="/js/vote.js"></script>
+    <script type="text/javascript">
+      document.write(
+        '<script src="http://maps.google.com/maps?file=api&amp;v=2&amp;sensor=true&amp;key=' +
+        {
+          'localhost:8080': 'ABQIAAAAD8M9IMy5hGBBbqIohA4R4hTwM0brOpm-All5BF6PoaKBxRWWERQKBKqDm80in1RTu5PkBiNU5rC6TQ',
+          'www.corp.google.com': 'ABQIAAAAD8M9IMy5hGBBbqIohA4R4hRCgqPHFwXE2zePYmMJxuu4uk_b2xT9IjfnJgIf53UIW67eDyEQGkZn7w',
+          'showyourvote.org': 'ABQIAAAAD8M9IMy5hGBBbqIohA4R4hQ8ELJusaStVeLp-McODOsiHrSWGhTwoDA6OSVhixqIn2IyFPsBBWLRlA',
+          'show-your-vote.appspot.com': 'ABQIAAAA-O3c-Om9OcvXMOJXreXHAxRlOb26qSyU154aZeLwOrF4C7-DphSw7JoLuXrcDjUb_7h-S1txkSCY7A'
+        }[location.host] +
+        '" type="text/javascript"><\/script>'
+      );
+    </script>
+{% endblock %}
+{% block tabs %}
+    <li class="ui-state-default ui-corner-top"><a href="/learn">Learn</a></li>
+    <li class="ui-state-default ui-corner-top ui-tabs-selected ui-state-active"><a href="/vote">Vote</a></li>
+    <li class="ui-state-default ui-corner-top"><a href="/explore">Explore</a></li>
+{% endblock %}
+{% block content %}
+  <div id="vote">
+    <div id="why">
+      <h3>Why should I join the vote?</h3>
+
+      <p>
+      Climate change affects us all. Nine out of every ten
+      disasters recorded are now climate related. Rising
+      temperatures and more frequent floods, droughts and
+      storms affect millions of people’s lives.
+      </p>
+
+      <p>
+      On December 7, governments will gather in Copenhagen,
+      Denmark to respond to one of the greatest challenges
+      facing humanity. The main question will be how to protect
+      the planet and create a green economy that will lead
+      to long-term prosperity.
+      </p>
+
+      <p>
+      Reaching a deal will depend not only on political
+      negotiations, but also on public pressure
+      from around the globe.
+      </p>
+
+      <p>
+        <strong>
+          Show your vote in support of the COP15, to tell the world's leaders that you want to change climate change.
+        </strong>
+      </p>
+
+      <p>
+        <object
+            classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000"
+            codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,0,0,0"
+            width="335" height="120" id="cop15_countdown_mini_white" align="left">
+          <param name="allowScriptAccess" value="sameDomain" />
+          <param name="allowFullScreen" value="false" />
+          <param name="movie" value="http://unfccc.int/files/inc/graphics/application/x-shockwave-flash/cop15_countdown_mini_white.swf" />
+          <param name="quality" value="high" />
+          <param name="bgcolor" value="#FFFFFF" />
+          <embed
+              src="http://unfccc.int/files/inc/graphics/application/x-shockwave-flash/cop15_countdown_mini_white.swf"
+              quality="high" bgcolor="#FFFFFF" width="335" height="120" name="cop15_countdown_mini_white"
+              align="middle" allowScriptAccess="sameDomain" allowFullScreen="false"
+              type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" />
+        </object>
+      </p>
+    </div>
+    <form name="sign" id="sign" action="/add/signer" method="post" class="cmxform">
+      <fieldset>
+        <ol>
+          <li>
+            <label for="form_toggle">Are You An <em>*</em></label>
+            <select id="form_toggle" onchange="toggleForm(jQuery(this).val())">
+              <option value="person">Individual</option>
+              <option value="org">Organization</option>
+            </select>
+          </li>
+          <li class="person">
+            <label for="person_name">Name</label>
+            <span id="person_name_info">Checking...</span>
+            <input type="hidden" name="person_name" id="person_name" />
+          </li>
+          <li class="org">
+            <label for="org_name">Organization <em>*</em></label>
+            <input name="org_name" id="org_name" />
+          </li>
+          <li class="org">
+            <label for="email">Email <em>*</em></label>
+            <input name="email" id="email" class="email"/>
+          </li>
+          <li class="org">
+            <label for="org_icon">Icon URL (32*32px):</label>
+            <input type="text" name="org_icon" value="" class="url">
+          </li>
+          <li class="loc country">
+            <label for="country">Country <em>*</em></label>
+            <select name="country" id="country" class="required">
+              <option value="">- Select Your Country -</option>
+            </select>
+          </li>
+          <li class="loc state">
+            <label for="state">State <em>*</em></label>
+            <select name="state" id="state">
+              <option value="">- Select Your State -</option>
+            </select>
+          </li>
+          <li class="loc org">
+            <label for="streetinfo">Street Address <em>*</em></label>
+            <input type="text" name="streetinfo" id="streetinfo"/>
+          </li>
+          <li class="loc">
+            <label for="city">City</label>
+            <input type="text" name="city" id="city"/>
+          </li>
+          <li class="loc postcode">
+            <label for="postcode">Postcode <em>*</em></label>
+            <input type="text" name="postcode" id="postcode"/>
+          </li>
+        </ol>
+        <input type="hidden" id="nonce" name="nonce" />
+        <input type="hidden" id="person_gfc_id" name="person_gfc_id" />
+        <input type="hidden" id="lat" name="lat" />
+        <input type="hidden" id="lng" name="lng" />
+      </fieldset>
+      <div id="vote_map" style="width: 300px; height: 150px"></div>
+      <p>Required fields marked <em>*</em>.</p>
+      <p><input id="submit" type="submit" value="Submit" disabled="disabled"/></p>
+      <div id="errmsg" style="color:#ff0000"></div>
+    </form>
+  </div>
+{% endblock %}

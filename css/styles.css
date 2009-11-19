@@ -1,0 +1,31 @@
+body {
+ font-family: Arial, Helvetica;
+ background-image: url(/images/background.gif);
+ color: rgb(0, 0, 0);
+ background-color: #fd7eb;
+ background-repeat: no-repeat;
+ background-position: center top;
+ text-align: center;
+ font-size: 10px;
+}
+td {
+  font-size: 12px;
+}
+
+.ui-widget-content {  padding: 0.4em; 
+text-align: left;
+font-size: 10px;
+  margin-bottom: 5px;
+}
+
+.ui-widget-content h5 { 
+  margin: 0; padding: 0.4em; text-align: center; 
+}
+
+#mainblock {
+  width:650px; text-align:center; margin: 0 auto;
+}
+
+.indent {
+  text-indent: 10px;
+}

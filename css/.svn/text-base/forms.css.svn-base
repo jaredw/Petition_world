@@ -1,0 +1,40 @@
+form.cmxform fieldset {
+  margin-bottom: 10px;
+  border: none;
+}
+
+form.cmxform label {
+  display: inline-block;
+  line-height: 1.0;
+  vertical-align: top;
+  width: 140px;
+font-size: 12px;
+}
+
+form.cmxform fieldset ol {
+  margin: 0;
+  padding: 0;
+}
+
+form.cmxform fieldset li {
+  list-style: none;
+  margin: 0;
+  -moz-background-clip:border;
+  -moz-background-inline-policy:continuous;
+  -moz-background-origin:padding;
+  padding: 3px 7px 5px;
+}
+
+form.cmxform fieldset li input {
+  width: 155px;
+}
+form.cmxform fieldset li select {
+  width: 155px;
+}
+
+form.cmxform em {
+  font-weight: bold;
+  font-style: normal;
+  font-size: 12px;
+  color: #f00;
+}

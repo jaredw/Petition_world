@@ -1,0 +1,12 @@
+.ui-widget-header { 
+	border: 0px solid #cccccc; 
+	background: #fdf7eb none repeat scroll 0 0; 
+	color: #222222; 
+	font-weight: bold;
+	height: 36px; 
+}
+
+.ui-widget-content { 
+	background: #fdf7eb none repeat scroll 0 0; 
+}
+

@@ -1,0 +1,36 @@
+body, p, blockquote {
+  margin:0;
+  padding:0;
+}
+a img, iframe {
+  border:medium none;
+}
+h1, h2, h3, h4, h5, h6 {
+  font-size:100%;
+  margin:0;
+  padding:0;
+}
+ul, ol, dl, li, dt, dd {
+  margin:0;
+  padding:0;
+}
+form, fieldset {
+  margin:0;
+  padding:0;
+}
+fieldset {
+  border:1px solid #000000;
+}
+legend {
+  color:#000000;
+  padding:0;
+}
+input, textarea, select {
+  font-family:inherit;
+  font-size:100%;
+  margin:0;
+  padding:1px;
+}
+select {
+  padding:0;
+}
