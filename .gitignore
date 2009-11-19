@@ -1,4 +1,4 @@
-#ignore project files 
+#ignore sublime project files 
 *.sublime_project
-#ignore svn stuff
+#ignore svn items
 .svn
