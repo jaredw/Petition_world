@@ -24,31 +24,38 @@
 {% block tabs %}
 {% endblock %}
 {% block content %}
+  <div id="NavTabs">
+    <ul>
+      <li> <a href="#">Vote</a> </li>
+      <li> <a href="#">Explore</a> </li>
+      <li> <a href="#">Learn</a> </li>
+    <ul>
+  </div>
   <div id="vote">
   <div id="Connect">
     <img src="/images/mini/ShowVote.png" alt="Show your vote" />
-        {% block friendConnect %}
+    {% block friendConnect %}
            <div id="div-2912608371130852112" class="gfc signin" style="position:absolute; left: 380px; top: 0px"></div>
            <script type="text/javascript">
-      var skin = {};
-      skin['BORDER_COLOR'] = 'transparent';
-      skin['ENDCAP_BG_COLOR'] = '#f2f2f2';
-      skin['ENDCAP_TEXT_COLOR'] = '#333333';
-      skin['ENDCAP_LINK_COLOR'] = '#0000cc';
-      skin['ALTERNATE_BG_COLOR'] = 'transparent';
-      skin['CONTENT_BG_COLOR'] = 'transparent';
-      skin['CONTENT_LINK_COLOR'] = '#0000cc';
-      skin['CONTENT_TEXT_COLOR'] = '#333333';
-      skin['CONTENT_SECONDARY_LINK_COLOR'] = '#7777cc';
-      skin['CONTENT_SECONDARY_TEXT_COLOR'] = '#666666';
-      skin['CONTENT_HEADLINE_COLOR'] = '#333333';
-      skin['ALIGNMENT'] = 'right';
-     /* google.friendconnect.container.renderSignInGadget({
-        id: 'div-2912608371130852112',
-        site: site_id
-      }, skin);*/
-      </script>
-        {% endblock %}
+              var skin = {};
+              skin['BORDER_COLOR'] = 'transparent';
+              skin['ENDCAP_BG_COLOR'] = '#f2f2f2';
+              skin['ENDCAP_TEXT_COLOR'] = '#333333';
+              skin['ENDCAP_LINK_COLOR'] = '#0000cc';
+              skin['ALTERNATE_BG_COLOR'] = 'transparent';
+              skin['CONTENT_BG_COLOR'] = 'transparent';
+              skin['CONTENT_LINK_COLOR'] = '#0000cc';
+              skin['CONTENT_TEXT_COLOR'] = '#333333';
+              skin['CONTENT_SECONDARY_LINK_COLOR'] = '#7777cc';
+              skin['CONTENT_SECONDARY_TEXT_COLOR'] = '#666666';
+              skin['CONTENT_HEADLINE_COLOR'] = '#333333';
+              skin['ALIGNMENT'] = 'right';
+             /* google.friendconnect.container.renderSignInGadget({
+                id: 'div-2912608371130852112',
+                site: site_id
+              }, skin);*/
+          </script>
+    {% endblock %}
   </div>
     <form name="sign" id="sign" action="/add/signer" method="post" class="cmxform">
       <input type="hidden" name="website" value="{{ website }}" />
@@ -119,10 +126,7 @@
       </fieldset>
       
       <!--TODO: position this button -->
-    <!--  <input TYPE="image" id="Submit" SRC="images/mini/submitButton.png" ALT="Submit Form" /> -->
-
-        
-
+      <!--  <input TYPE="image" id="Submit" SRC="images/mini/submitButton.png" ALT="Submit Form" /> -->
       <div id="errmsg" style="color:#ff0000"></div>
     </form>
   </div>

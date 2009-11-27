@@ -39,12 +39,14 @@ class BasePage(webapp.RequestHandler):
 
     bg_color = self.request.get('bg_color')
     website = self.request.get('website')
-
+    tab_bgcolor = self.request.get('tab_background')
+    
     template_values = {
       'page_title': page_title,
       'page_num': page_num,
       'skin': skin,
       'bg_color': bg_color,
+      'tab_background': tab_bgcolor,
       'website': website,
       'vote_href': "/vote?skin=%s&amp;bg_color=%s&amp;website=%s" % (skin, bg_color, website),
       'explore_href': "/explore?skin=%s&amp;bg_color=%s&amp;website=%s" % (skin, bg_color, website),

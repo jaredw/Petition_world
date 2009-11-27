@@ -103,6 +103,30 @@ p { margin: 10px 0; }
 }
 
 
+#NavTabs
+{
+  overflow: hidden;
+  font-size: 16px;
+  color: #004063;
+}
+
+#NavTabs ul li
+{
+  float: left;
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-top: 9px;
+  padding-bottom: 6px;
+  border: solid 1px black;
+}
+
+#NavTabs ul li a
+{
+  font-size: 16px;
+  color: #004063;
+  text-decoration: none;
+}
+
 /*end new design elements*/
 
 
