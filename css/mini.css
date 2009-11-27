@@ -69,14 +69,42 @@ p { margin: 10px 0; }
   height: 22px;
 }
 
-#vote #why {
-  float: left;
-  border: 0px solid #cccccc;
-  width: 598px;
-  height: 50px;
-  margin: 0px 0px 0px 0;
-  padding: 0px;
+
+/* new design elements putting them in here, rather than the forms.cssas template specific forms are being added.*/
+#VoteForm OL LI INPUT,
+#VoteForm OL LI SELECT {
+ width: 195px;
+ height: 19px;
+ margin-bottom: 10px;
 }
+
+#VoteForm
+{
+  font-weight: bold;  
+
+}
+
+#VoteForm legend {
+  padding-bottom: 3px;
+}
+
+#VoteForm OL LI LABEL {
+ width: 75px;
+ height: 19px;
+}
+
+#vote #Connect
+{
+  border-bottom: solid 1px #CCCCCC;
+  margin-left: 15px;
+  margin-right: 15px;
+  padding-bottom: 5px;
+  min-height: 35px;
+}
+
+
+/*end new design elements*/
+
 
 #vote #vote_map {
 float: right;	
@@ -86,10 +114,10 @@ border: 1px solid #cccccc;
 #vote form {
   float: left;
   border: 0px solid #cccccc;
-  width: 588px;
-  height: 380px;
+  width: 584px;
+  height: 358px;
   margin: 2px 0 2px 0;
-  padding: 5px;
+  padding-top: 8px;
 }
 
 #vote #submit{

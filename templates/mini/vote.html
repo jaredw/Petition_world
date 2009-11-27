@@ -19,54 +19,64 @@
       );
     </script>
 
-
 {% endblock %}
+
 {% block tabs %}
-	<img src="/images/mini/HeaderVote.png" width="600" height="39" border="0" usemap="#Map" style="background-color:{{bg_color}}" />
-	<map name="Map" id="Map">
-	  <area shape="rect" coords="1,1,189,39" href="vote?skin=mini&amp;bg_color={{bg_color}}" />
-	  <area shape="rect" coords="204,10,250,39" href="vote?skin=mini&amp;bg_color={{bg_color}}" />
-	  <area shape="rect" coords="251,10,323,39" href="explore?skin=mini&amp;bg_color={{bg_color}}" />
-	  <area shape="rect" coords="324,10,381,39" href="learn?skin=mini&amp;bg_color={{bg_color}}" />
-	</map>
 {% endblock %}
 {% block content %}
   <div id="vote">
-    <div id="why">
-
-<!-- <p style="font-size:12px; margin-top:5px; margin-bottom:0px; margin-left:5px"><b>Why should I join the vote?</b></p>
--->
-      <p style="font-size: 12px; margin-top:15px; margin-left:12px; margin-right:15px"><b>Your vote will be presented to world leaders at the COP15 UN climate summit <br>in Copenhagen, telling them to seal a fair and effective climate deal.</b></p>
-	
-	
-
-    </div>
+  <div id="Connect">
+    <img src="/images/mini/ShowVote.png" alt="Show your vote" />
+        {% block friendConnect %}
+           <div id="div-2912608371130852112" class="gfc signin" style="position:absolute; left: 380px; top: 0px"></div>
+           <script type="text/javascript">
+      var skin = {};
+      skin['BORDER_COLOR'] = 'transparent';
+      skin['ENDCAP_BG_COLOR'] = '#f2f2f2';
+      skin['ENDCAP_TEXT_COLOR'] = '#333333';
+      skin['ENDCAP_LINK_COLOR'] = '#0000cc';
+      skin['ALTERNATE_BG_COLOR'] = 'transparent';
+      skin['CONTENT_BG_COLOR'] = 'transparent';
+      skin['CONTENT_LINK_COLOR'] = '#0000cc';
+      skin['CONTENT_TEXT_COLOR'] = '#333333';
+      skin['CONTENT_SECONDARY_LINK_COLOR'] = '#7777cc';
+      skin['CONTENT_SECONDARY_TEXT_COLOR'] = '#666666';
+      skin['CONTENT_HEADLINE_COLOR'] = '#333333';
+      skin['ALIGNMENT'] = 'right';
+     /* google.friendconnect.container.renderSignInGadget({
+        id: 'div-2912608371130852112',
+        site: site_id
+      }, skin);*/
+      </script>
+        {% endblock %}
+  </div>
     <form name="sign" id="sign" action="/add/signer" method="post" class="cmxform">
       <input type="hidden" name="website" value="{{ website }}" />
-	<div id="vote_map" style="width: 250px; height: 250px; overflow:hidden">
-
-		
-	</div>
-      <fieldset>
+	    <div id="vote_map" style="width: 288px; height: 355px; overflow:hidden; border: 1px solid black">
+	      <!-- map element -->
+      </div>
+      <fieldset id="VoteForm">
+      <legend>
+        <p style="font-size: 12px; margin-bottom:20 px; margin-top:15px; margin-left:12px; margin-right:15px"><b>Your vote will be presented to world leaders at the COP15 UN climate summit in Copenhagen, telling them to seal a fair and effective climate deal.</b></p>
+      </legend>
         <ol>
           <li>
-            <label for="form_toggle">Are You An <em>*</em></label>
+            <label for="form_toggle"><em>*</em> Are You An </label>
             <select id="form_toggle" onchange="toggleForm(jQuery(this).val())">
               <option value="person">Individual</option>
               <option value="org">Organization</option>
             </select>
           </li>
           <li class="person">
-            <label for="person_name">Name</label>
-            <span id="person_name_info">Checking...</span>
-            <input type="hidden" name="person_name" id="person_name" />
+            <label for="person_name"><em>*</em>Name</label>
+            <input name="person_name" id="person_name" />
           </li>
           <li class="org">
-            <label for="org_name">Organization <em>*</em></label>
+            <label for="org_name"> <em>*</em> Organization</label>
             <input name="org_name" id="org_name" />
           </li>
           <li class="org">
-            <label for="email">Email <em>*</em></label>
+            <label for="email"><em>*</em> Email </label>
             <input name="email" id="email" class="email"/>
           </li>
           <li class="org">
@@ -74,19 +84,19 @@
             <input type="text" name="org_icon" value="" class="url">
           </li>
           <li class="loc country">
-            <label for="country">Country <em>*</em></label>
+            <label for="country"><em>*</em> Country</label>
             <select name="country" id="country" class="required">
               <option value="">- Select Your Country -</option>
             </select>
           </li>
           <li class="loc state">
-            <label for="state">State <em>*</em></label>
+            <label for="state"><em>*</em> State</label>
             <select name="state" id="state">
               <option value="">- Select Your State -</option>
             </select>
           </li>
           <li class="loc org">
-            <label for="streetinfo">Street Address <em>*</em></label>
+            <label for="streetinfo"> <em>*</em> Street Address</label>
             <input type="text" name="streetinfo" id="streetinfo"/>
           </li>
           <li class="loc">
@@ -94,8 +104,11 @@
             <input type="text" name="city" id="city"/>
           </li>
           <li class="loc postcode">
-            <label for="postcode">Postcode <em>*</em></label>
+            <label for="postcode"><em>*</em> Postcode </label>
             <input type="text" name="postcode" id="postcode"/>
+          </li>
+          <li>
+             <p style="font-size: 12px">Required fields marked <em>*</em>
           </li>
         </ol>
         <input type="hidden" id="nonce" name="nonce" />
@@ -105,8 +118,11 @@
     <!--    <input type="hidden" id="person_name" name="person_name"> -->
       </fieldset>
       
-      <p style="margin-left:20px">Required fields marked <em>*</em>
-        <input id="submit" type="submit" value="Submit" disabled="disabled"/></p>
+      <!--TODO: position this button -->
+    <!--  <input TYPE="image" id="Submit" SRC="images/mini/submitButton.png" ALT="Submit Form" /> -->
+
+        
+
       <div id="errmsg" style="color:#ff0000"></div>
     </form>
   </div>
