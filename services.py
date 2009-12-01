@@ -6,6 +6,7 @@ import copy
 from google.appengine.ext import webapp
 from google.appengine.api import memcache
 from google.appengine.ext import db
+from google.appengine.api import images
 
 from django.utils import simplejson
 
@@ -164,11 +165,41 @@ class TotalsInfoService(webapp.RequestHandler):
     self.response.headers.add_header('Expires', 'Sat, 26 Jul 1997 05:00:00 GMT')
     cachedVal = memcache.get(models.genKeyForTotalsInfo())
     if cachedVal is not None:
+      logging.info("Memcache hit: %s" % (cachedVal))
       self.response.out.write(cachedVal)
     else:
       data  = {}
       totalVotes, totalCountries, totalOrgs = util.getTotals()
       data['total'] = {'totalVotes': totalVotes, 'totalCountries': totalCountries, 'totalOrgs': totalOrgs}
       newVal = simplejson.dumps(data)
-      memcache.set(models.genKeyForTotalsInfo(), newVal, 10)
+      memcache.set(models.genKeyForTotalsInfo(), newVal, 30)
       self.response.out.write(newVal)
+
+
+class GetBoundedOrgs(webapp.RequestHandler):
+  def get(self):
+    self.response.headers.add_header('Cache-Control', 'no-cache, must-revalidate')
+    self.response.headers.add_header('Expires', 'Sat, 26 Jul 1997 05:00:00 GMT')
+    countryCodes = self.request.get('countryCode').split('|')
+    name = self.request.get('name')
+    bounds = self.request.get('bounds')
+ 
+    
+
+
+#get logos
+class LogoForOrg(webapp.RequestHandler):
+  #TODO: store resized images some where
+  def get(self):
+     orgName = self.request.get('orgName')
+     logging.info(orgName)
+     query = db.Query(models.PetitionSigner)
+     #result = query.filter('ID =',db.key(orgID)).get()
+     result = query.filter('name =',orgName).get()
+     if result is not None:
+       if result.org_icon_hosted is not None:
+          self.response.headers['Content-Type'] = "image/png"
+          image = images.resize(result.org_icon_hosted,32,32)
+          self.response.out.write(image)
+     
+    

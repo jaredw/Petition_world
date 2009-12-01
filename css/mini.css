@@ -34,9 +34,16 @@ p { margin: 10px 0; }
 }
 .right {
   float: right;
-  
 }
 
+#explore {
+  padding-top: 7px;
+}
+* html #explore {
+  position: absolute;
+  top: 37px;
+  left: 0px;
+}
 #explore_map {
   width: 380px;
   height: 427px;
@@ -45,18 +52,31 @@ p { margin: 10px 0; }
 }
 
 #stats {
-  border: 0px solid #cccccc;
-  height: 60px;
-  width: 211px;
-  background-color: #fdf7eb;
-  margin: 3px 3px 3px 3px;
+  overflow: hidden;
+  width:211px;
+  height:25px;
+  text-align: center;
+  font-size: 20px;
+  font-weight: bold;
+  border: 1px solid #cccccc;
+  margin-top:3px;
 }
 #comments_wrapper {
   background-color: #fdf7eb;
   margin: 3px 3px 3px 3px;
-  height:395px;
-  width:211px;
-  padding:1px;
+  height: 395px;
+  width: 211px;
+  padding: 1px;
+}
+* html #stats {
+  position: absolute;
+  top: 7px;
+  left: 387px;
+}
+* html #comments_wrapper {
+  position: absolute;
+  top: 38px;
+  left: 381px;
 }
 
 .ui-tabs .ui-tabs-panel {
@@ -115,9 +135,14 @@ p { margin: 10px 0; }
   float: left;
   padding-left: 8px;
   padding-right: 8px;
-  padding-top: 9px;
+  padding-top: px;
   padding-bottom: 6px;
   border: solid 1px black;
+}
+
+#NavTabs ul li.active
+{
+  border-bottom: none;
 }
 
 #NavTabs ul li a
@@ -126,7 +151,41 @@ p { margin: 10px 0; }
   color: #004063;
   text-decoration: none;
 }
+#searchButton
+{
+  background-color:#008AFF;
+  border:1px solid #224499;
+  color:#FFFFFF;
+  cursor:pointer;
+  height:19px;
+  margin:0;
+  padding:0 4px 2px;
+  position:absolute;
+  right:0;
+  top:0;
+  font-family: arial, sans-serif;
+font-size: 13px;
+}
 
+#searchLogo
+{
+  left:0;
+  position:absolute;
+  top:0;  
+}
+
+#searchInput
+{
+  border:1px solid #67A7E3;
+height:15px;
+left:70px;
+padding:1px 3px;
+position:absolute;
+top:0;
+font-family: arial, sans-serif;
+font-size: 13px;
+  
+}
 /*end new design elements*/
 
 

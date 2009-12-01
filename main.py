@@ -6,8 +6,10 @@ from google.appengine.ext.webapp.util import run_wsgi_app
 
 import pages
 import services
+import logging
 
 def main():
+  logging.getLogger().setLevel(logging.DEBUG)
   application = webapp.WSGIApplication([
                                       ('/', pages.RootRedirect),
                                       ('/learn', pages.LearnPage),
@@ -19,7 +21,7 @@ def main():
                                       ('/debug', pages.DebugPage),
                                       ('/add/random', pages.RandomAddService),
                                       ('/add/signer', pages.SignerAddService),
-									  ('/add/host', pages.HostAddService),
+									                    ('/add/host', pages.HostAddService),
                                       ('/nonce', services.CryptographicNonceService),
                                       ('/info/votelocal', services.VotesInLocationService),
                                       ('/info/continents', services.ContinentsInfoService),
@@ -28,6 +30,8 @@ def main():
                                       ('/info/postcodes', services.PostcodesInfoService),
                                       ('/info/orgs', services.OrgsInfoService),
                                       ('/info/totals', services.TotalsInfoService),
+                                      ('/info/logo', services.LogoForOrg),
+                                      ('/info/search', services.GetBoundedOrgs),
                                       ('/clearcache', pages.MemcacheClearer),
                                       ('/jsonimport', pages.JSONImport)
                                       ],

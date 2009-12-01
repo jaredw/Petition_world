@@ -23,10 +23,12 @@
 
 {% block tabs %}
 {% endblock %}
+
 {% block content %}
-  <div id="NavTabs">
+  
+<div id="NavTabs">
     <ul>
-      <li> <a href="#">Vote</a> </li>
+      <li class="active"> <a href="#">Vote</a> </li>
       <li> <a href="#">Explore</a> </li>
       <li> <a href="#">Learn</a> </li>
     <ul>
@@ -57,7 +59,7 @@
           </script>
     {% endblock %}
   </div>
-    <form name="sign" id="sign" action="/add/signer" method="post" class="cmxform">
+    <form name="sign" id="sign" enctype="multipart/form-data" action="/add/signer" method="post" class="cmxform">
       <input type="hidden" name="website" value="{{ website }}" />
 	    <div id="vote_map" style="width: 288px; height: 355px; overflow:hidden; border: 1px solid black">
 	      <!-- map element -->
@@ -87,8 +89,8 @@
             <input name="email" id="email" class="email"/>
           </li>
           <li class="org">
-            <label for="org_icon">Icon URL (32*32px):</label>
-            <input type="text" name="org_icon" value="" class="url">
+            <label for="org_icon">Icon:</label>
+            <input type="file" name="org_icon">
           </li>
           <li class="loc country">
             <label for="country"><em>*</em> Country</label>
@@ -130,4 +132,12 @@
       <div id="errmsg" style="color:#ff0000"></div>
     </form>
   </div>
+  
+  <div id="searchOverlay">
+    <div>
+      GOOGLE
+    </div>
+    <div></div>
+    <div></div>
+  <div>
 {% endblock %}

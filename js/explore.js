@@ -15,6 +15,7 @@ var loadedCountries = false;
 var loadedContinents = false;
 var locationId = "global";
 var toggler = 0;
+var currentMarker;
 
 if (site_bg_color == "" || site_bg_color == null) {
   switch(site_skin) {
@@ -68,6 +69,7 @@ jQuery(document).ready(function() {
   //loadVideoBar();
 
   initExploreMap();
+  initSearch();
   
   google.friendconnect.container.initOpenSocialApi({
     site: site_id,
@@ -95,6 +97,11 @@ jQuery(document).ready(function() {
   });
 });
 
+
+function initSearch() {
+  jQuery("#searchButton").click(searchnNearOrgs);
+}
+
 function animateTotals() {
   if (toggler == 0) {
 	jQuery('#votes_span').toggle();  //toggle off
@@ -114,24 +121,79 @@ function animateTotals() {
 }
 
 function initExploreMap() {
+ 
   exploreMap = new GMap2(jQuery("#explore_map")[0]);
   exploreMap.setCenter(new GLatLng(0, 10), 1, G_PHYSICAL_MAP);
   exploreMap.setUIToDefault();
+
+ 
+  
+  
   var latlng = jQuery.cookie('latlng');
   if (latlng) {
     var point = new GLatLng(latlng.split(',')[0], latlng.split(',')[1]);
     exploreMap.setCenter(point, 8);
   }
+  
+
   markerManager = new MarkerManager(exploreMap);
   GEvent.addListener(exploreMap, "zoomend", handleZoomChange);
   GEvent.addListener(exploreMap, "moveend", handleBoundsChange);
   handleZoomChange();
   handleBoundsChange();
   jQuery.getJSON("/info/totals", processTotals);
-  exploreMap.enableGoogleBar();
+  
+
+   jQuery("#explore_map").append(jQuery('#searchBar').show());
+  
+  
+  GEvent.addListener(exploreMap, "infowindowopen", function() {
+    var iw = exploreMap.getInfoWindow();
+    window.setTimeout(function () {
+      iw.maximize();
+    }, 5);
+
+
+    GEvent.addListener(iw, "maximizeend", function() {
+      var skin = {};
+      skin['BORDER_COLOR'] = '#cccccc';
+      skin['ENDCAP_BG_COLOR'] = site_bg_color;
+      skin['ENDCAP_TEXT_COLOR'] = '#333333';
+      skin['ENDCAP_LINK_COLOR'] = '#0000cc';
+      skin['ALTERNATE_BG_COLOR'] = '#ffffff';
+      skin['CONTENT_BG_COLOR'] = '#ffffff';
+      skin['CONTENT_LINK_COLOR'] = '#0000cc';
+      skin['CONTENT_TEXT_COLOR'] = '#333333';
+      skin['CONTENT_SECONDARY_LINK_COLOR'] = '#7777cc';
+      skin['CONTENT_SECONDARY_TEXT_COLOR'] = '#666666';
+      skin['CONTENT_HEADLINE_COLOR'] = '#333333';
+      skin['DEFAULT_COMMENT_TEXT'] = '- add your comment here -';
+      skin['HEADER_TEXT'] = 'Show your support of the vote in ' + currentMarker.title;
+      skin['POSTS_PER_PAGE'] = '4';
+      skin['HEIGHT'] = '330';
+      google.friendconnect.container.renderWallGadget({
+            id: 'div-864264044956702366',
+            site: site_id,
+            'view-params': {
+              "disableMinMax": "true",
+              "scope": "ID",
+              "features": "video,comment",
+              "allowAnonymousPost":"true",
+              "docId": SHA1(currentMarker.markerType + currentMarker.locationCode + currentMarker.title),
+              "startMaximized": "true",
+              "useFixedHeight": "true"
+            }
+          }, skin);
+      });
+   });
+ 
+
+ 
+   
 }
 
 function handleBoundsChange() {
+
   var bounds = exploreMap.getBounds();
   for (countryCode in countriesInfo) {
     var countryInfo = countriesInfo[countryCode];
@@ -187,7 +249,7 @@ function processContinents(json) {
     var marker = createMarker("continent", continentCode, new GLatLng(continent.center[0], continent.center[1]), createBigIcon(continent.count), continent.name, 3);
     markers.push(marker);
   }
-  markerManager.addMarkers(markers, 0, 2);
+  markerManager.addMarkers(markers, 0, 3);
   markerManager.refresh();
 }
 
@@ -199,7 +261,7 @@ function processCountries(json) {
     var marker = createMarker("country", countryCode, new GLatLng(country.center[0], country.center[1]), createBigIcon(country.count), country.name, 6);
     markers.push(marker);
   }
-  markerManager.addMarkers(markers, 3, 5);
+  markerManager.addMarkers(markers, 4, 7);
   markerManager.refresh();
 }
 
@@ -212,7 +274,7 @@ function processStates(json) {
     markers.push(marker);
   }
 
-  markerManager.addMarkers(markers, 3, 5);
+  markerManager.addMarkers(markers, 4, 7);
   markerManager.refresh();
 }
 
@@ -225,112 +287,88 @@ function processPostcodes(json) {
     markers.push(marker);
   }
 
-  markerManager.addMarkers(markers, 6);
+  markerManager.addMarkers(markers, 8);
   markerManager.refresh();
 }
 
 function processOrgs(json) {
   var orgs = json.orgs;
   var markers = [];
-  
- 
-    for (var i = 0; i < orgs.length; i++) {
+
+/*
+  for (var i = 0; i < orgs.length; i++) {
       var marker = createSmallOrgMarker(orgs[i]);
       markers.push(marker);
     }
     markerManager.addMarkers(markers, 5, 8); // 0 is the coarsest setting, full world view
+  */
+ markers = [];
+ for (var i = 0; i < orgs.length; i++) {
+   if (orgs[i].icon.length > 20) {
+     var marker = createMedOrgMarker(orgs[i]);
+     markers.push(marker);
+   }
+ }
+ markerManager.addMarkers(markers, 10, 13); // 0 is the coarsest setting, full world view
 
- 	markers = [];
-    for (var i = 0; i < orgs.length; i++) {
-      var marker = createMedOrgMarker(orgs[i]);
-      markers.push(marker);
-    }
-    markerManager.addMarkers(markers, 9, 11); // 0 is the coarsest setting, full world view
-
- 	markers = [];
-    for (var i = 0; i < orgs.length; i++) {
-      var marker = createOrgMarker(orgs[i]);
-      markers.push(marker);
-    }
-    markerManager.addMarkers(markers, 12); // 0 is the coarsest setting, full world view
-
+ markers = [];
+ for (var i = 0; i < orgs.length; i++) {
+   if (orgs[i].icon.length > 20) {
+     var marker = createOrgMarker(orgs[i]);
+     markers.push(marker);
+   }
+  }
+  markerManager.addMarkers(markers, 14); // 0 is the coarsest setting, full world view
 
   markerManager.refresh();
 }
 
 function createOrgIcon(url) {
-  var icon = new GIcon();
-  icon.iconSize = new GSize(32, 32);
-  icon.image = url;
-  icon.shadow = null;
-  icon.iconAnchor = new GPoint(16, 16);
-  icon.infoWindowAnchor = new GPoint(16, 24);
-
-  return icon;
+  var opts = {};
+  opts.useImg = true;
+  opts.image = url;
+  opts.size = new GSize(32, 32);
+  return opts;
 }
 
 function createMedOrgIcon(url) {
-  var icon = new GIcon();
-  icon.iconSize = new GSize(12, 12);
-  icon.image = url;
-  icon.shadow = null;
-  icon.iconAnchor = new GPoint(16, 16);
-  icon.infoWindowAnchor = new GPoint(16, 24);
-
-  return icon;
+  var opts = {}
+  opts.useImg = true;
+  opts.image = url;
+  opts.size = new GSize(16, 16);
+  return opts;
 }
 
-function createSmallOrgIcon(url) {
-  var icon = new GIcon();
-  icon.iconSize = new GSize(6, 6);
-  icon.image = url;
-  icon.shadow = null;
-  icon.iconAnchor = new GPoint(16, 16);
-  icon.infoWindowAnchor = new GPoint(16, 24);
-
-  return icon;
+function createSmallOrgIcon(url) {F
+  var opts = {}
+  opts.useImg = true;
+  opts.image = url;
+  opts.size = new GSize(6, 6);
+  return opts;
 }
 
 function createBigIcon(label) {
   var iconOptions = {};
-  iconOptions.width = 64;
-  iconOptions.height = 26;
-  iconOptions.primaryColor = "#ca6618";
+  iconOptions.size = new GSize(64, 26);
+  iconOptions.backgroundColor = "#ca6618";
   iconOptions.label = "" + label;
-  iconOptions.labelSize = 20;
-  iconOptions.labelColor = "#FFFFFF";
-  iconOptions.shape = "roundrect";
-  var icon = MapIconMaker.createFlatIcon(iconOptions);
-  icon.iconOptions = iconOptions;
-  return icon;
+  return iconOptions;
 }
 
 function createMediumIcon(label) {
   var iconOptions = {};
-  iconOptions.width = 48;
-  iconOptions.height = 22;
-  iconOptions.primaryColor =  "#0097c4";
+  iconOptions.size = new GSize(48, 22);
+  iconOptions.backgroundColor =  "#0097c4";
   iconOptions.label = "" + label;
-  iconOptions.labelSize = 16;
-  iconOptions.labelColor = "#FFFFFF";
-  iconOptions.shape = "roundrect";
-  var icon = MapIconMaker.createFlatIcon(iconOptions);
-  icon.iconOptions = iconOptions;
-  return icon;
+  return iconOptions;
 }
 
 function createSmallIcon(label) {
   var iconOptions = {};
-  iconOptions.width = 24;
-  iconOptions.height = 18;
-  iconOptions.primaryColor = "#85a20a";
+  iconOptions.size = new GSize(24, 18);
+  iconOptions.backgroundColor = "#85a20a";
   iconOptions.label = "" + label;
-  iconOptions.labelSize = 12;
-  iconOptions.labelColor = "#FFFFFF";
-  iconOptions.shape = "roundrect";
-  var icon = MapIconMaker.createFlatIcon(iconOptions);
-  icon.iconOptions = iconOptions;
-  return icon;
+  return iconOptions;
 }
 
 function locationString(country, state, city, postcode) {
@@ -341,26 +379,57 @@ function locationString(country, state, city, postcode) {
   }
 }
 
+
+function searchnNearOrgs(name) {
+
+  var bounds = exploreMap.getBounds();
+  var countryCodes = [];
+  //If time permits look into geo data, better than O(n) here?
+  for (countryCode in countriesInfo) {
+    var countryInfo = countriesInfo[countryCode];
+    var countryBounds = new GLatLngBounds(new GLatLng(countryInfo.bounds.southWest[0], countryInfo.bounds.southWest[1]), new GLatLng(countryInfo.bounds.northEast[0], countryInfo.bounds.northEast[1]));
+    if (bounds.intersects(countryBounds)) {
+       countryCodes.push(countryCode);
+    }
+  }
+  
+  var name = jQuery("#searchInput").val();
+  var arguments = {}
+  //name to search for
+  arguments.name = name;
+  //current view, get center use haversine to poll based on radius rather than bounds
+  arguments.bounds =  exploreMap.getBounds();
+  //country codes we are looking at
+  //more app enginy way to do this? rpc? or encode the whole thing as json and use djangos simplejson lib
+  arguments.countryCode = countryCodes.join('|');
+  jQuery.getJSON('/info/search',arguments,function(data,status)
+  {
+   
+  });
+  
+
+}
+
 function createOrgMarker(info) {
-  var marker = new GMarker(new GLatLng(info.center[0], info.center[1]), {icon: createOrgIcon(info.icon)});
+  var marker = new MarkerLight(new GLatLng(info.center[0], info.center[1]), createOrgIcon(info.icon));
   GEvent.addListener(marker, "click", function() {
-    marker.openInfoWindowHtml("<b>" + info.name + "</b>");
+    exploreMap.openInfoWindowHtml(marker.getPoint(), "<b>" + info.name + "</b>", {pixelOffset: new GSize(16, -16)});
   });
   return marker;
 }
 
 function createMedOrgMarker(info) {
-  var marker = new GMarker(new GLatLng(info.center[0], info.center[1]), {icon: createMedOrgIcon(info.icon)});
+  var marker = new MarkerLight(new GLatLng(info.center[0], info.center[1]), createMedOrgIcon(info.icon));
   GEvent.addListener(marker, "click", function() {
-    marker.openInfoWindowHtml("<b>" + info.name + "</b>");
+    exploreMap.openInfoWindowHtml(marker.getPoint(), "<b>" + info.name + "</b>", {pixelOffset: new GSize(8,-8)});
   });
   return marker;
 }
 
 function createSmallOrgMarker(info) {
-  var marker = new GMarker(new GLatLng(info.center[0], info.center[1]), {icon: createSmallOrgIcon(info.icon)});
+  var marker = new MarkerLight(new GLatLng(info.center[0], info.center[1]), createSmallOrgIcon(info.icon));
   GEvent.addListener(marker, "click", function() {
-    marker.openInfoWindowHtml("<b>" + info.name + "</b>");
+    exploreMap.openInfoWindowHtml(marker.getPoint(), "<b>" + info.name + "</b>", {pixelOffset: new GSize(4, -4)});
   });
   return marker;
 }
@@ -381,9 +450,12 @@ function createMarker(markerType, locationCode, latlng, icon, title, zoom) {
 '
     }
   }
+  var marker = new MarkerLight(latlng, icon);
+  marker.markerType = markerType;
+  marker.locationCode = locationCode;
+  marker.title = title;
 
-  var marker = new GMarker(latlng, {icon: icon});
-  var tooltip = new MapTooltip(marker, title, {offsetX: icon.iconOptions.width - 6, backgroundColor: icon.iconOptions.primaryColor});
+  var tooltip = new MapTooltip(latlng, title, {offsetX: icon.size.width + 6});
   GEvent.addListener(marker, "mouseover", function() {
     exploreMap.addOverlay(tooltip);
   });
@@ -392,11 +464,12 @@ function createMarker(markerType, locationCode, latlng, icon, title, zoom) {
   });
   if (markerType != "continent") {
     var createInfoWindow = function() {
+      currentMarker = marker;
       jQuery.getJSON("/info/votelocal?" + markerType + "=" + locationCode, function (gfcSigners) {
         if (gfcSigners.length == 0) {
-          marker.openInfoWindowHtml(
+          exploreMap.openInfoWindowHtml(latlng,
             '<p>' +
-              icon.iconOptions.label + ' signed the petition here.' +
+              icon.label + ' signed the petition here.' +
             '</p>',
             infoWindowOptions()
           );
@@ -432,10 +505,10 @@ function createMarker(markerType, locationCode, latlng, icon, title, zoom) {
               }
             });
             gfcImageList = gfcImageList + '</ul>';
-            marker.openInfoWindowHtml(
+            exploreMap.openInfoWindowHtml(latlng,
               gfcImageList +
               '<p>' +
-                icon.iconOptions.label + ' signed the petition here.' +
+                icon.label + ' signed the petition here.' +
               '</p>' +
               '<p>' +
               '<a href="javascript:exploreMap.getInfoWindow().maximize()">Discuss</a>' +
@@ -449,49 +522,11 @@ function createMarker(markerType, locationCode, latlng, icon, title, zoom) {
       });
     };
     GEvent.addListener(marker, "click", createInfoWindow);
-    GEvent.addListener(marker, "infowindowopen", function() {
-      var iw = exploreMap.getInfoWindow();
-      GEvent.addListener(iw, "maximizeend", function() {
-        window.setTimeout(function () {
-          var skin = {};
-          skin['BORDER_COLOR'] = '#cccccc';
-          skin['ENDCAP_BG_COLOR'] = site_bg_color;
-          skin['ENDCAP_TEXT_COLOR'] = '#333333';
-          skin['ENDCAP_LINK_COLOR'] = '#0000cc';
-          skin['ALTERNATE_BG_COLOR'] = '#ffffff';
-          skin['CONTENT_BG_COLOR'] = '#ffffff';
-          skin['CONTENT_LINK_COLOR'] = '#0000cc';
-          skin['CONTENT_TEXT_COLOR'] = '#333333';
-          skin['CONTENT_SECONDARY_LINK_COLOR'] = '#7777cc';
-          skin['CONTENT_SECONDARY_TEXT_COLOR'] = '#666666';
-          skin['CONTENT_HEADLINE_COLOR'] = '#333333';
-          skin['DEFAULT_COMMENT_TEXT'] = '- add your comment here -';
-          skin['HEADER_TEXT'] = 'Show your support of the vote in ' + title;
-          skin['POSTS_PER_PAGE'] = '4';
-          skin['HEIGHT'] = '330';
-          google.friendconnect.container.renderWallGadget({
-            id: 'div-864264044956702366',
-            site: site_id,
-            'view-params': {
-              "disableMinMax": "true",
-              "scope": "ID",
-              "features": "video,comment",
-              "allowAnonymousPost":"true",
-              "docId": SHA1(markerType + locationCode + title),
-              "startMaximized": "true",
-              "useFixedHeight": "true"
-            }
-          }, skin);
-        }, 5);
-      });
-      window.setTimeout(function () {
-        iw.maximize();
-      }, 5);
-    });
     if (voteLocation == locationCode) {
       jQuery(window).load(function() {
         // Open this marker immediately if this is where the voter is
         // For the sake of GFC, needs to be in onload
+         
         createInfoWindow();
       });
     }

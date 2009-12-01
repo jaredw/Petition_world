@@ -1,5 +1,5 @@
 application: show-your-vote
-version: 6
+version: 9
 runtime: python
 api_version: 1
 
@@ -26,6 +26,3 @@ handlers:
 
 - url: /.*
   script: main.py
-
-
-
