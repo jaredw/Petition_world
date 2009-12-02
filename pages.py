@@ -251,8 +251,6 @@ class SignerAddService(webapp.RequestHandler):
   def createSignerFromParams(self, request):
     signer = models.PetitionSigner()
     # defaults to a person
-    logging.info(self.request.get('org_name'))
-    logging.info(self.request.get('postcode'))
     if not self.request.get('org_name') or self.request.get('org_name') == '':
       signer.type = 'person'
       signer.name = self.request.get('person_name')
@@ -264,7 +262,9 @@ class SignerAddService(webapp.RequestHandler):
       signer.streetinfo = self.request.get('streetinfo')
       #keeps the javascript failing
       logo = self.request.get("org_icon")
-      if not logo is None:
+      logging.info(logo)
+      #something some what sane for an image
+      if len(logo) > 10:
         signer.org_icon_hosted = db.Blob(logo)
         signer.org_icon = 'info/logo?orgName=%s' % signer.name
       else:

@@ -30,10 +30,12 @@ def main():
                                       ('/info/postcodes', services.PostcodesInfoService),
                                       ('/info/orgs', services.OrgsInfoService),
                                       ('/info/totals', services.TotalsInfoService),
+                                      ('/info/orgName',services.GetUniqueOrgs),
                                       ('/info/logo', services.LogoForOrg),
                                       ('/info/search', services.GetBoundedOrgs),
                                       ('/clearcache', pages.MemcacheClearer),
                                       ('/jsonimport', pages.JSONImport)
+
                                       ],
                                      debug=True)
   run_wsgi_app(application)

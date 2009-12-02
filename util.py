@@ -257,6 +257,70 @@ def getOrgsInCountry(countryCode):
   results = query.fetch(1000)
   return results
 
+
+def getUniqueWithCount(elements,keyFunc=None,storeFunc=None):
+  results = {}
+  if keyFunc is None:
+      keyFunc = lambda x: x
+  if storeFunc is None:
+     storeFunc = lambda x: x
+  for elem in elements:
+      marker = keyFunc(elem)
+      if marker not in results:
+          results[marker] = {}
+          results[marker]['item'] = storeFunc(elem)
+          results[marker]['count'] = 1
+      else:
+          results[marker]['count'] += 1
+  return results
+  
+  
+def getUnique(elements,keyFunc=None):
+  results = []
+  uniq = {}
+  if keyFunc is None:
+      keyFunc = lambda x: x
+  for elem in elements:
+      marker = keyFunc(elem)
+      if marker not in uniq:
+        uniq[marker] = 1
+        results.append(elem)
+      
+  return results
+
+def getOrgsInCountryForName(countryCode,name):
+    orgs = memcache.get(models.MEMCACHE_VOTES + countryCode + name)
+    if orgs is not None:
+      return orgs
+    else:
+        query = db.Query(models.PetitionSigner)
+        query.filter('country = ', countryCode)
+        query.filter('type = ', 'org')
+        query.filter('name = ', name)
+        #have to query few times around if these ever exceed 1000
+        results = query.fetch(1000)
+        memcache.set(models.MEMCACHE_VOTES + countryCode + name,results)
+        return results
+
+
+
+def getOrgsForName(name):
+    orgs = memcache.get(models.MEMCACHE_VOTES  + name)
+    if orgs is not None:
+      return orgs
+    else:
+        query = db.Query(models.PetitionSigner)
+        
+        query.filter('country = ', countryCode)
+        query.filter('type = ', 'org')
+        query.filter('name = ', name)
+        #have to query few times around if these ever exceed 1000
+        results = query.fetch(1000)
+        memcache.set(models.MEMCACHE_VOTES + countryCode + name,results)
+        return results
+
+
+
 def getTotalOrgs():
   query = db.Query(models.PetitionSigner)
   query.filter('type = ', 'org')

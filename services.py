@@ -180,13 +180,39 @@ class GetBoundedOrgs(webapp.RequestHandler):
   def get(self):
     self.response.headers.add_header('Cache-Control', 'no-cache, must-revalidate')
     self.response.headers.add_header('Expires', 'Sat, 26 Jul 1997 05:00:00 GMT')
-    countryCodes = self.request.get('countryCode').split('|')
+    #countryCodes = self.request.get('countryCode').split('|')
     name = self.request.get('name')
-    bounds = self.request.get('bounds')
- 
+    #bounds = self.request.get('bounds')
+    results = []
+    for code in geodata.countries.keys():
+      results.extend(util.getOrgsInCountryForName(code,name))
+   
     
-
-
+    ret = lambda x : ((x.latlng.lat,x.latlng.lon),x.name , x.org_icon,)
+    
+    display = {}
+    totalResults = util.getUniqueWithCount(results,lambda y: str(y.latlng.lat) + str(y.latlng.lon),ret)
+    countryResults = util.getUniqueWithCount(results,lambda y: y.country ,lambda x : (geodata.countries[x.country]['center'],x.name,x.org_icon))
+    display['zoomed'] = totalResults
+    display['countryLevel'] = countryResults
+    self.response.out.write(simplejson.dumps(display))
+      
+    
+class GetUniqueOrgs(webapp.RequestHandler):
+  def get(self):
+    cachedVal = memcache.get(models.genKeyForAllOrgsInfo())
+    if cachedVal is not None:
+      self.response.out.write(cachedVal)
+    else:
+      allOrgNames = []
+      #with out an org table this really is not optimal
+      for countryCode in geodata.countries.keys():
+         allOrgNames.extend(map(lambda x: x.name,util.getOrgsInCountry(countryCode)))
+      jsonDump = simplejson.dumps(util.getUnique(allOrgNames))
+      memcache.set(models.genKeyForAllOrgsInfo(), jsonDump, 300)
+      self.response.out.write(jsonDump)
+      
+      
 #get logos
 class LogoForOrg(webapp.RequestHandler):
   #TODO: store resized images some where

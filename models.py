@@ -25,6 +25,9 @@ def genKeyForOrgsInfo(countryCode):
 
 def genKeyForTotalsInfo():
   return 'INFO_TOTALS'
+  
+def genKeyForAllOrgsInfo():
+  return 'ALL_ORGS'
 
 class PetitionSigner(db.Model):
   type = db.StringProperty()
