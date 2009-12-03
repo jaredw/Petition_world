@@ -8,7 +8,7 @@ form.cmxform label {
   line-height: 1.0;
   vertical-align: top;
   width: 140px;
-font-size: 12px;
+  font-size: 12px;
 }
 
 form.cmxform fieldset ol {
@@ -26,10 +26,10 @@ form.cmxform fieldset li {
 }
 
 form.cmxform fieldset li input {
-  width: 155px;
+  width: 140px;
 }
 form.cmxform fieldset li select {
-  width: 155px;
+  width: 140px;
 }
 
 form.cmxform em {

@@ -35,43 +35,10 @@
     {% endblock %}
   </head>
   <body>
-<div id="show_your_vote" class="ui-tabs ui-widget ui-widget-content ui-corner-all" style="background-color:{{bg_color}}">
-  <ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all">
+<div id="show_your_vote">
     
-    {% block tabs %}
-    {% endblock %}
-    {% block friendConnect}
-    <li>
-      <!-- Define the div tag where the gadget will be inserted. -->
-      <div id="div-2912608371130852112" class="gfc signin" style="position:absolute; left: 380px; top: 0px"></div>
-      <!-- Render the gadget into a div. -->
-      <script type="text/javascript">
-      var skin = {};
-      skin['BORDER_COLOR'] = 'transparent';
-      skin['ENDCAP_BG_COLOR'] = '#f2f2f2';
-      skin['ENDCAP_TEXT_COLOR'] = '#333333';
-      skin['ENDCAP_LINK_COLOR'] = '#0000cc';
-      skin['ALTERNATE_BG_COLOR'] = 'transparent';
-      skin['CONTENT_BG_COLOR'] = 'transparent';
-      skin['CONTENT_LINK_COLOR'] = '#0000cc';
-      skin['CONTENT_TEXT_COLOR'] = '#333333';
-      skin['CONTENT_SECONDARY_LINK_COLOR'] = '#7777cc';
-      skin['CONTENT_SECONDARY_TEXT_COLOR'] = '#666666';
-      skin['CONTENT_HEADLINE_COLOR'] = '#333333';
-      skin['ALIGNMENT'] = 'right';
-      google.friendconnect.container.renderSignInGadget({
-        id: 'div-2912608371130852112',
-        site: site_id
-      }, skin);
-      </script>
-    </li>
-  </ul>
-  {% endblock %}
 {% block content %}
 {% endblock %}
-  <div id="legal" style="position:absolute; left:0px; top: 485px; font-size: 9px; background-color:{{bg_color}}">
-    <a href="register?skin=mini&amp;bg_color={{bg_color}}">Show the Vote on your website</a> - <a href="terms?skin=mini&amp;bg_color={{bg_color}}">Terms of Use</a>
-  </div>
 </div>
   </body>
 </html>

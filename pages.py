@@ -4,6 +4,7 @@ import random
 import logging
 import hashlib
 
+
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp.util import run_wsgi_app
 from google.appengine.ext.webapp import template
@@ -214,7 +215,11 @@ class RandomAddService(webapp.RequestHandler):
     util.addSignerToClusters(signer)
 
 class SignerAddService(webapp.RequestHandler):
-  def post(self):
+  def post(self):    
+    skin = 'mini'
+    if self.request.get('skin') != '':
+      skin = self.request.get('skin') 
+        
     originalNonce = self.request.cookies.get('nonce', None)
     hashedNonce = self.request.get('nonce')
     cachedVal = originalNonce and memcache.get(originalNonce)
@@ -226,8 +231,8 @@ class SignerAddService(webapp.RequestHandler):
       self.response.headers.add_header('Set-Cookie', 'latlng=%s; expires=Fri, 31-Dec-2020 23:59:59 GMT; path=/' % (str(signer.latlng.lat) + ',' + str(signer.latlng.lon)))
       # Remove the nonce cookie
       self.response.headers.add_header('Set-Cookie', 'nonce=; expires=Fri, 31-Dec-1980 23:59:59 GMT; path=/')
-      # TODO: redirect to the correct skin, check referrer?
-      self.redirect('/explore?location=%s&skin=mini' % self.request.get('postcode'))
+      #not set so chanes are it was not set  
+      self.redirect('/explore?location=%s&skin=%s' % (self.request.get('postcode'),skin))
     else:
       # Spam
       if not hashedNonce:
@@ -240,7 +245,8 @@ class SignerAddService(webapp.RequestHandler):
         logging.info("Marked as spam (nonce did not match): " + personName)
       else:
         logging.info("Marked as spam (unknown reason): " + personName)
-      self.redirect('/')
+     
+        self.redirect('/')
 
   # test with: /add/signer?person_name=Pamela&country=AU&state=NSW&postcode=2009&lat=-33.869709&lng=151.19393
   def get(self):

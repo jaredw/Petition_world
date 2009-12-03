@@ -1,16 +1,17 @@
 body {
   padding: 0 0px;
   font: normal 50% "Lucida Grande", Helvetica, Verdana, Arial;
+
 }
 
 p { margin: 10px 0; }
 
 #show_your_vote {
   overflow: hidden;
-  width: 600px;
-  height: 500px;
-  background-color: red;
+  width: 965px;
+  height: 442px;
   border: 1px solid #cccccc;
+  background-color: #F8EDD5;
 }
 .logo {
   margin-right: 10px;
@@ -21,13 +22,12 @@ p { margin: 10px 0; }
 }
 
 .top {
-  
   width: 100%;
   height: 450px;
 }
 .bottom {
   overflow: hidden;
-  height: 120;
+  height: 120px;
 }
 .left {
   float: left;
@@ -37,11 +37,53 @@ p { margin: 10px 0; }
   
 }
 
+#MapTop
+{
+  padding-bottom: 7px;
+  overflow: hidden;
+}
+
+.Search
+{
+  
+}
+
+.Search #searchInput
+{
+  width: 201px;
+  height: 20px;
+  padding-bottom: 10px;
+  font-size: 14px;
+}
+
+.Totals
+{
+  width: 319px;
+  background-color: white;
+  height: 20px;
+  padding-left: 10px;
+}
+
+.Totals span
+{
+  font-size: 18px;
+  color: #004063;
+  font-weight: bold;
+}
+
+#MapContainer
+{
+  width: 620px;
+  height: 446px;
+  background-color: #EFDCAC;
+  padding: 12px;
+}
+
+
 #explore_map {
-  width: 500px;
-  height: 427px;
+  width: 965px;
+  height: 400px;
   background-color: red;
-  margin: 3px 0 0px 0px;
 }
 
 #stats {
@@ -69,6 +111,23 @@ p { margin: 10px 0; }
   height: 22px;
 }
 
+
+#vote
+{
+  background-image: url('/images/large/FormBackground.png');
+  width: 272px;
+  height: 430px;
+  padding-left: 15px;
+  padding-top: 15px;
+  padding-right: 15px;
+  position: relative;
+}
+#vote h1
+{
+  color: #F8EDD5;
+  font-size: 20px;
+}
+
 #vote #why {
   float: left;
   border: 0px solid #cccccc;
@@ -86,8 +145,6 @@ border: 1px solid #cccccc;
 #vote form {
   float: left;
   border: 0px solid #cccccc;
-  width: 588px;
-  height: 380px;
   margin: 2px 0 2px 0;
   padding: 5px;
 }
@@ -98,7 +155,8 @@ border: 1px solid #cccccc;
 
 form.cmxform {
   text-align: left;
-  font-size: 1.1em;
+  font-size: 1.4em;
+  color: #F8EDD5;
 }
 #big_button {
   float: left;
@@ -108,18 +166,6 @@ form.cmxform {
 #videoBar-bar {
   margin: 3px;
   float: right;
-}
-
-#legal {
-  clear: both;
-  text-align: center;
-  vertical-align: text-top;
-  width: 598px;
-  height: 10px;
-  margin: 0px 0 0px 0;
-  padding: 0px;
-  background-color: #fdf7eb;
-  border: none;
 }
 
 # _map p {
@@ -163,4 +209,59 @@ form.cmxform {
   display: none !important;
   height: 0px !important;
   width: 0px !important;
+}
+
+
+/* forms */
+form.cmxform fieldset {
+  margin-bottom: 10px;
+  border: none;
+  color: #F8EDD5;
+}
+form.cmxform fieldset p b {
+  color: #F8EDD5;
+}
+
+
+form.cmxform #Submit
+{
+  position: absolute;
+  right: 17px;
+  bottom: 10px;
+}
+
+form.cmxform label {
+  display: inline-block;
+  line-height: 1.0;
+  vertical-align: top;
+  width: 88px;
+  font-size:  1.2em;
+}
+
+form.cmxform fieldset ol {
+  margin: 0;
+  padding: 0;
+}
+
+form.cmxform fieldset li {
+  list-style: none;
+  margin: 0;
+  -moz-background-clip:border;
+  -moz-background-inline-policy:continuous;
+  -moz-background-origin:padding;
+  padding: 3px 7px 5px;
+}
+
+form.cmxform fieldset li input {
+  width: 155px;
+}
+form.cmxform fieldset li select {
+  width: 155px;
+}
+
+form.cmxform em {
+  font-weight: bold;
+  font-style: normal;
+  font-size: 12px;
+  color: #f00;
 }

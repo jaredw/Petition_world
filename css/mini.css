@@ -93,23 +93,26 @@ p { margin: 10px 0; }
 /* new design elements putting them in here, rather than the forms.cssas template specific forms are being added.*/
 #VoteForm OL LI INPUT,
 #VoteForm OL LI SELECT {
- width: 195px;
+ width: 185px;
  height: 19px;
- margin-bottom: 10px;
+ margin-bottom: 3px;
 }
+
 
 #VoteForm
 {
   font-weight: bold;  
-
+  position: relative;
+  height: 405px;
 }
 
 #VoteForm legend {
   padding-bottom: 3px;
 }
 
+
 #VoteForm OL LI LABEL {
- width: 75px;
+ width: 85px;
  height: 19px;
 }
 
@@ -173,7 +176,10 @@ font-size: 13px;
   position:absolute;
   top:0;  
 }
-
+.Error
+{
+   color: red; 
+}
 #searchInput
 {
   border:1px solid #67A7E3;
@@ -199,12 +205,20 @@ border: 1px solid #cccccc;
   border: 0px solid #cccccc;
   width: 584px;
   height: 358px;
-  margin: 2px 0 2px 0;
+  margin: 15px 0 2px 0;
   padding-top: 8px;
 }
-
+#closeBar
+{
+  cursor:pointer;
+  margin: 5px;
+  
+}
 #vote #submit{
-	margin: 0 0 0 20px;
+	position: absolute;
+  left: 148px;
+  bottom: -1px;
+  z-index:10px;
 }
 
 form.cmxform {
@@ -223,12 +237,13 @@ form.cmxform {
 
 #legal {
   clear: both;
-  text-align: center;
+  text-align: right;
   vertical-align: text-top;
   width: 598px;
   height: 10px;
   margin: 0px 0 0px 0;
-  padding: 0px;
+  padding-left: 0px;
+  margin-right: 10px;
   background-color: #fdf7eb;
   border: none;
 }

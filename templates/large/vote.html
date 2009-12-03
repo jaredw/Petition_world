@@ -1,10 +1,10 @@
 {% extends "base.html" %}
 {% block includes %}
     <link type="text/css" href="/css/syv.css" rel="stylesheet" />
-    <link type="text/css" href="/css/forms.css" rel="stylesheet" />
+    
+    
     <script src="http://dev.jquery.com/view/trunk/plugins/validate/jquery.validate.js"></script>
-    <script src="/js/vote.js"></script>
-    <script type="text/javascript">
+        <script type="text/javascript">
       document.write(
         '<script src="http://maps.google.com/maps?file=api&amp;v=2&amp;sensor=true&amp;key=' +
         {
@@ -13,81 +13,84 @@
           'showyourvote.org': 'ABQIAAAAD8M9IMy5hGBBbqIohA4R4hQ8ELJusaStVeLp-McODOsiHrSWGhTwoDA6OSVhixqIn2IyFPsBBWLRlA',
           'www.showyourvote.org': 'ABQIAAAAD8M9IMy5hGBBbqIohA4R4hQ8ELJusaStVeLp-McODOsiHrSWGhTwoDA6OSVhixqIn2IyFPsBBWLRlA',
           'show-your-vote.appspot.com': 'ABQIAAAA-O3c-Om9OcvXMOJXreXHAxRlOb26qSyU154aZeLwOrF4C7-DphSw7JoLuXrcDjUb_7h-S1txkSCY7A',
-          'syv-test.appspot.com': 'ABQIAAAALrtqAVfQq7mfTTl0EBb7vBT0h0tJ-bKGUcjUByQY52vcgVjYfBTGUDVuRrptlbTJqV8QJhQ1sQgxDQ',
-          'earthhour.interesting.com.au:8080':'ABQIAAAAR4dJSBii5YOC7_avESB3UhSREOJVzwcXxPhGJSAmogrttN-hZxRP8oi7AcITKR4T74UqgppixA8RSw'
+          'syv-test.appspot.com': 'ABQIAAAALrtqAVfQq7mfTTl0EBb7vBT0h0tJ-bKGUcjUByQY52vcgVjYfBTGUDVuRrptlbTJqV8QJhQ1sQgxDQ'
         }[location.host] +
         '" type="text/javascript"><\/script>'
       );
     </script>
+    <script src="/js/large.js"></script>
+    <script src="/js/markermanager.js"></script>
+    <script src="/js/maptooltip.js"></script>
+    <script src="/js/mapiconmaker.js"></script>
+    
+    <!-- <script src="/js/explore.js"></script> -->
 
 
 {% endblock %}
-{% block tabs %}
-	<img src="/images/mini/HeaderVote.png" width="600" height="39" border="0" usemap="#Map" style="background-color:{{bg_color}}" />
-	<map name="Map" id="Map">
-	  <area shape="rect" coords="1,1,189,39" href="vote?skin={{ skin }}&amp;bg_color={{bg_color}}" />
-	  <area shape="rect" coords="204,10,250,39" href="vote?skin={{ skin }}&amp;bg_color={{bg_color}}" />
-	  <area shape="rect" coords="251,10,323,39" href="explore?skin={{ skin }}&amp;bg_color={{bg_color}}" />
-	  <area shape="rect" coords="324,10,381,39" href="learn?skin={{ skin }}&amp;bg_color={{bg_color}}" />
-	</map>
-{% endblock %}
+
+
 {% block content %}
-  <div id="vote">
-    <div id="why">
-
-<!-- <p style="font-size:12px; margin-top:5px; margin-bottom:0px; margin-left:5px"><b>Why should I join the vote?</b></p>
--->
-      <p style="font-size: 12px; margin-top:15px; margin-left:12px; margin-right:15px"><b>Your vote will be presented to world leaders at the COP15 UN climate summit <br>in Copenhagen, telling them to seal a fair and effective climate deal.</b></p>
-	
-	
-
+ <!-- map -->
+ <div id="MapContainer" class="left">
+  <div id="MapTop">
+   <div class="Search left">
+     <input type="text" id="searchInput" name="search">
+     <input type="Image" id="searchButton" SRC="images/large/search.png">
+   </div>
+   <div class="Totals right">
+       <span id="votes_span"><span id="votes"></span>&nbsp;Votes</span>
+                <span id="countries_span" style="display:none"><span id="countries"></span>&nbsp;Countries</span>
+                <span id="orgs_span" style="display:none"><span id="orgs"></span>&nbsp;Organizations</span>
+   </div>
+  </div>
+   <div id="vote_map" style="width: 620px; height: 395px; overflow:hidden;">
+        <!-- map element -->
     </div>
-    <form name="sign" id="sign" action="/add/signer" method="post" class="cmxform">
+ 
+  </div>
+  <div id="vote" class="right">
+  <h1> Show your vote </h1>
+    <form name="sign" id="sign" enctype="multipart/form-data" action="/add/signer" method="post" class="cmxform">
       <input type="hidden" name="website" value="{{ website }}" />
-	<div id="vote_map" style="width: 250px; height: 250px; overflow:hidden">
-
-		
-	</div>
-      <fieldset>
+     
+      <fieldset id="VoteForm">
+      <legend>
+        <p><b>Your vote will be presented to world leaders at the COP15 UN climate summit in Copenhagen, telling them to seal a fair and effective climate deal.</b></p>
+      </legend>
         <ol>
           <li>
-            <label for="form_toggle">Are You An <em>*</em></label>
+            <label for="form_toggle"><em>*</em> Are You An </label>
             <select id="form_toggle" onchange="toggleForm(jQuery(this).val())">
               <option value="person">Individual</option>
               <option value="org">Organization</option>
             </select>
           </li>
-          <li class="person">
-            <label for="person_name">Name</label>
-            <span id="person_name_info">Checking...</span>
-            <input type="hidden" name="person_name" id="person_name" />
-          </li>
           <li class="org">
-            <label for="org_name">Organization <em>*</em></label>
+            <label for="org_name"> <em>*</em> Organization</label>
             <input name="org_name" id="org_name" />
           </li>
           <li class="org">
-            <label for="email">Email <em>*</em></label>
+            <label for="email"><em>*</em> Email </label>
             <input name="email" id="email" class="email"/>
           </li>
           <li class="org">
-            <label for="org_icon">Icon URL (32*32px):</label>
-            <input type="text" name="org_icon" value="" class="url">
+            <label for="org_icon">Icon:</label>
+            <input type="file" name="org_icon">
           </li>
           <li class="loc country">
-            <label for="country">Country <em>*</em></label>
+            <label for="country"><em>*</em> Country</label>
             <select name="country" id="country" class="required">
               <option value="">- Select Your Country -</option>
             </select>
           </li>
           <li class="loc state">
-            <label for="state">State <em>*</em></label>
+            <label for="state"><em>*</em> State</label>
             <select name="state" id="state">
               <option value="">- Select Your State -</option>
             </select>
           </li>
           <li class="loc org">
-            <label for="streetinfo">Street Address <em>*</em></label>
+            <label for="streetinfo"> <em>*</em> Street Address</label>
             <input type="text" name="streetinfo" id="streetinfo"/>
           </li>
           <li class="loc">
@@ -95,20 +98,24 @@
             <input type="text" name="city" id="city"/>
           </li>
           <li class="loc postcode">
-            <label for="postcode">Postcode <em>*</em></label>
+            <label for="postcode"><em>*</em> Postcode </label>
             <input type="text" name="postcode" id="postcode"/>
+          </li>
+          <li>
+             <p style="font-size: 12px">Required fields marked <em>*</em>
           </li>
         </ol>
         <input type="hidden" id="nonce" name="nonce" />
         <input type="hidden" id="person_gfc_id" name="person_gfc_id" />
         <input type="hidden" id="lat" name="lat" />
         <input type="hidden" id="lng" name="lng" />
-    <!--    <input type="hidden" id="person_name" name="person_name"> -->
+        <input type="hidden" id="skin" name="skin" value="large" />
       </fieldset>
       
-      <p style="margin-left:20px">Required fields marked <em>*</em>
-        <input id="submit" type="submit" value="Submit" disabled="disabled"/></p>
+      <!--TODO: position this button -->
+      <input TYPE="image" id="Submit" SRC="images/submitButton.png" ALT="Submit Form" />
       <div id="errmsg" style="color:#ff0000"></div>
     </form>
   </div>
+ 
 {% endblock %}

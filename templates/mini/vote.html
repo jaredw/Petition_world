@@ -20,24 +20,15 @@
     </script>
 
 {% endblock %}
-
 {% block tabs %}
-{% endblock %}
-
-{% block content %}
-  
-<div id="NavTabs">
-    <ul>
-      <li class="active"> <a href="#">Vote</a> </li>
-      <li> <a href="#">Explore</a> </li>
-      <li> <a href="#">Learn</a> </li>
-    <ul>
-  </div>
-  <div id="vote">
-  <div id="Connect">
-    <img src="/images/mini/ShowVote.png" alt="Show your vote" />
-    {% block friendConnect %}
-           <div id="div-2912608371130852112" class="gfc signin" style="position:absolute; left: 380px; top: 0px"></div>
+<img src="/images/mini/HeaderVote.png" width="600" height="39" border="0" usemap="#Map" style="background-color:{{bg_color}}"/>
+<map name="Map" id="Map" >
+  <area shape="rect" coords="12,10,60,39" href="vote?skin=mini&amp;bg_color={{bg_color}}" />
+  <area shape="rect" coords="60,10,132,39" href="explore?skin=mini&amp;bg_color={{bg_color}}" />
+  <area shape="rect" coords="133,10,190,39" href="learn?skin=mini&amp;bg_color={{bg_color}}" />
+    <area shape="rect" coords="219,10,400,39" href="vote?skin=mini&amp;bg_color={{bg_color}}" />
+</map>
+ <div id="div-2912608371130852112" class="gfc signin" style="position:absolute; left: 380px; top: 0px"></div>
            <script type="text/javascript">
               var skin = {};
               skin['BORDER_COLOR'] = 'transparent';
@@ -57,16 +48,18 @@
                 site: site_id
               }, skin);*/
           </script>
-    {% endblock %}
-  </div>
+{% endblock %}
+{% block content %}
+  <div id="vote">
     <form name="sign" id="sign" enctype="multipart/form-data" action="/add/signer" method="post" class="cmxform">
       <input type="hidden" name="website" value="{{ website }}" />
-	    <div id="vote_map" style="width: 288px; height: 355px; overflow:hidden; border: 1px solid black">
+	    <div id="vote_map" style="width: 288px; height: 397px; overflow:hidden; border: 1px solid black">
 	      <!-- map element -->
       </div>
       <fieldset id="VoteForm">
       <legend>
-        <p style="font-size: 12px; margin-bottom:20 px; margin-top:15px; margin-left:12px; margin-right:15px"><b>Your vote will be presented to world leaders at the COP15 UN climate summit in Copenhagen, telling them to seal a fair and effective climate deal.</b></p>
+        <p style="font-size: 12px; margin-top:15px; margin-left:12px; margin-right:15px"><b>Your vote will be presented to world leaders at the COP15 UN climate summit in Copenhagen, telling them to seal a fair and effective climate deal.</b></p>
+        <p style="font-size: 12px; margin-left:12px; margin-right:15px">Required fields marked <em>*</em>
       </legend>
         <ol>
           <li>
@@ -116,28 +109,18 @@
             <label for="postcode"><em>*</em> Postcode </label>
             <input type="text" name="postcode" id="postcode"/>
           </li>
-          <li>
-             <p style="font-size: 12px">Required fields marked <em>*</em>
-          </li>
         </ol>
         <input type="hidden" id="nonce" name="nonce" />
         <input type="hidden" id="person_gfc_id" name="person_gfc_id" />
         <input type="hidden" id="lat" name="lat" />
         <input type="hidden" id="lng" name="lng" />
     <!--    <input type="hidden" id="person_name" name="person_name"> -->
+        <input TYPE="image" id="Submit" SRC="images/submitButton.png" ALT="Submit Form" />
       </fieldset>
       
       <!--TODO: position this button -->
-      <!--  <input TYPE="image" id="Submit" SRC="images/mini/submitButton.png" ALT="Submit Form" /> -->
+      
       <div id="errmsg" style="color:#ff0000"></div>
     </form>
   </div>
-  
-  <div id="searchOverlay">
-    <div>
-      GOOGLE
-    </div>
-    <div></div>
-    <div></div>
-  <div>
 {% endblock %}

@@ -82,7 +82,8 @@ def addSignerToClusters(signer, extraLatLng):
     query.filter('country =', countryCode)
     query.filter('postcode =', postcode)
     result = query.get()
-    if result is None:
+    #this extra check will avoid us adding up 'empty' postcodes from the bulk upload only viewed at country level
+    if result is None and postcode != '':
       postcodecluster = models.Postcode()
       postcodecluster.postcode = postcode
       postcodecluster.state = stateCode
@@ -325,3 +326,56 @@ def getTotalOrgs():
   query = db.Query(models.PetitionSigner)
   query.filter('type = ', 'org')
   return len(list(query._get_query()._Run(prefetch_count=1000, next_count=1000, limit=10000)))
+
+
+
+def addSignerFromDict(info):
+  #since this is defered there is no real way to ensure this information 
+  #gets added with out logging and checking 
+  #its a long process with the images and geocoding so need a way to provide feedback def createSignerFromParams(info):
+   signer = models.PetitionSigner()
+   latLng = ('invalid','invalid')
+   #the parser will have validated the data so either an indv or org from here
+   if info['type'] == 'ind':
+     #person
+     signer.type = 'person'
+     signer.name = info['name']
+     if info['city'] == '':
+        latLng = geodata.countries[countryCode]["center"]
+     else:
+        latLng = getLatLong('%s %s %s' % (info['city'],info['postcode'],info['countryCode']))
+     #if this ever becomes a feature of the vote upload?
+     #signer.gfc_id = self.request.get('person_gfc_id')
+   else:
+     signer.type = 'org'
+     signer.name = info['name']
+     signer.email = info['email']
+     signer.streetinfo = info['location']
+     #keeps the javascript failing
+     signer.org_icon = 'info/logo?orgName=%s' % signer.name
+     latLng = getLatLong('%s %s %s %s' % (info['location'],info['city'],info['postcode'],info['countryCode']))
+
+   signer.city =  info['city']
+   signer.state = info['postcode']
+   signer.country = info['countryCode']
+   signer.postcode = self.request.get('postcode')
+   signer.host_website = self.request.get('website')
+
+   if latLng[0] != 'invalid':
+     #TODO: We used to get two lat/lngs. What happened?
+     signer.latlng = db.GeoPt(float(latLng[0]), float(latLng[1]))
+
+   #no need to defer this should be run from a queue anyway
+   util.addSignerToClusters(signer, signer.latlng)
+   return signer
+
+def getLatLong(location):
+    key = ''
+    location = urllib.quote_plus(location)
+    request = "http://maps.google.com/maps/geo?q=%s&output=%s&key=%s"% (location, 'csv', key)
+    data = urllib.urlopen(request).read()
+    result = data.split(',')
+    if result[0] == '200':
+        return (result[2], result[3])
+    else:
+        return 'invalid','invalid'

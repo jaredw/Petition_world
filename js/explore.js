@@ -19,6 +19,7 @@ var loadedContinents = false;
 var locationId = "global";
 var toggler = 0;
 var currentMarker;
+var mapWidth;
 
 
 if (site_bg_color == "" || site_bg_color == null) {
@@ -71,10 +72,9 @@ jQuery(document).ready(function() {
   /* location of rpc_relay.html and canvas.html */
   google.friendconnect.container.setParentUrl('/gfc/');
   //loadVideoBar();
-
   initExploreMap();
   initSearch();
-  
+  jQuery("#closeBar").click(closeBar);
   google.friendconnect.container.initOpenSocialApi({
     site: site_id,
     onload: function(securityToken) {
@@ -101,6 +101,12 @@ jQuery(document).ready(function() {
   });
 });
 
+
+function closeBar(e)
+{
+  jQuery("#rightCol").hide();
+  jQuery("#explore_map").width(570);
+}
 
 function initSearch() {
   jQuery("#explore_map").append(jQuery('#searchBar').show());
@@ -411,95 +417,109 @@ function createItem(val)
 
 function searchnNearOrgs(name) {
   var orgName = jQuery("#searchInput").val();
-  if(jQuery.inArray(orgName, orgs) > -1)
+  
+  if($("#searchButton").val() == "Search")
   {
-    var bounds = exploreMap.getBounds();
-     /*
-    var countryCodes = [];
-    for (countryCode in countriesInfo) {
-      var countryInfo = countriesInfo[countryCode];
-      var countryBounds = new GLatLngBounds(new GLatLng(countryInfo.bounds.southWest[0], countryInfo.bounds.southWest[1]), new GLatLng(countryInfo.bounds.northEast[0], countryInfo.bounds.northEast[1]));
-      if (bounds.intersects(countryBounds)) {
-         countryCodes.push(countryCode);
-      }
-    }
-    */
-    var arguments = {}
-    //name to search for
-    arguments.name = orgName;
-    //current view, get center use haversine to poll based on radius rather than bounds
-    //arguments.bounds =  exploreMap.getBounds();
-    //country codes we are looking at
-    //more app enginy way to do this? rpc? or encode a json string and use djangos simplejson lib
-    //arguments.countryCode = countryCodes.join('|');
-    alert('searching');
-    jQuery.getJSON('/info/search',arguments,function(data,status)
-    {
-         var bounds = new google.maps.LatLngBounds();
-         bounds.extend(exploreMap.getCenter())
-         searchedOrgs = data;
-         markerManager.hide();
-         markerManagerSearch.clearMarkers()
-         markerManagerSearch.show()
-         //zoom level 0 3 for country
-         var markers = [];
-         jQuery.each(searchedOrgs['zoomed'],  function(i, val)
-         {
-           markers.push(createOrgMarkerWithCount(createItem(val))); //image
-           if(exploreMap.getZoom() > 5)
-           {
-              debugger;
-              bounds.extend(new GLatLng(val['item'][0][0],val['item'][0][1]));
-           }
-         });
-       
-        exploreMap.setCenter(bounds.getCenter(),exploreMap.getBoundsZoomLevel(bounds))
-        markerManagerSearch.addMarkers(markers, 5);
 
-        markers.length = 0;
-        jQuery.each(searchedOrgs['countryLevel'],  function(i, val)
-         {
-            markers.push(createOrgMarkerWithCount(createItem(val)));
-         });
-         //all markers
-          markerManagerSearch.addMarkers(markers, 0, 5);
-          markerManagerSearch.refresh();
-    });
+    if(jQuery.inArray(orgName, orgs) > -1)
+    {
+      var bounds = exploreMap.getBounds();
+       /*
+      var countryCodes = [];
+      for (countryCode in countriesInfo) {
+        var countryInfo = countriesInfo[countryCode];
+        var countryBounds = new GLatLngBounds(new GLatLng(countryInfo.bounds.southWest[0], countryInfo.bounds.southWest[1]), new GLatLng(countryInfo.bounds.northEast[0], countryInfo.bounds.northEast[1]));
+        if (bounds.intersects(countryBounds)) {
+           countryCodes.push(countryCode);
+        }
+      }
+      */
+      var arguments = {}
+      //name to search for
+      arguments.name = orgName;
+      //current view, get center use haversine to poll based on radius rather than bounds
+      //arguments.bounds =  exploreMap.getBounds();
+      //country codes we are looking at
+      //more app enginy way to do this? rpc? or encode a json string and use djangos simplejson lib
+      //arguments.countryCode = countryCodes.join('|');
+      jQuery.getJSON('/info/search',arguments,function(data,status)
+      {
+          $("#searchButton").val("Cancel");
+           var bounds = new google.maps.LatLngBounds();
+           bounds.extend(exploreMap.getCenter())
+           searchedOrgs = data;
+           markerManager.hide();
+           markerManagerSearch.clearMarkers()
+           markerManagerSearch.show()
+           //zoom level 0 3 for country
+           var markers = [];
+           jQuery.each(searchedOrgs['zoomed'],  function(i, val)
+           {
+             markers.push(createOrgMarkerWithCount(createItem(val))); //image
+             if(exploreMap.getZoom() > 5)
+             {
+                bounds.extend(new GLatLng(val['item'][0][0],val['item'][0][1]));
+             }
+           });
+         
+          exploreMap.setCenter(bounds.getCenter(),exploreMap.getBoundsZoomLevel(bounds))
+          markerManagerSearch.addMarkers(markers, 5);
+  
+          markers.length = 0;
+          jQuery.each(searchedOrgs['countryLevel'],  function(i, val)
+           {
+              markers.push(createOrgMarkerWithCount(createItem(val)));
+           });
+           //all markers
+            markerManagerSearch.addMarkers(markers, 0, 5);
+            markerManagerSearch.refresh();
+      });
+    }
+    else
+    {
+      var geocoder = new GClientGeocoder();
+      geocoder.getLatLng(
+      orgName,
+      function(point) {
+        if (!point) {
+          //todo figure out what we do in this case
+        } else {
+          exploreMap.setCenter(point, 13);
+          var marker = new GMarker(point);
+          exploreMap.addOverlay(marker);
+          //marker.openInfoWindowHtml() incase i want to add info of total votes around this area
+        }
+      }
+    );
+      
+    }
   }
   else
   {
-    var geocoder = new GClientGeocoder();
-    geocoder.getLatLng(
-    orgName,
-    function(point) {
-      if (!point) {
-        //todo figure out what we do in this case
-      } else {
-        exploreMap.setCenter(point, 13);
-        var marker = new GMarker(point);
-        exploreMap.addOverlay(marker);
-        //marker.openInfoWindowHtml() incase i want to add info of total votes around this area
-      }
-    }
-  );
-    
+         markerManager.show();
+         markerManagerSearch.clearMarkers()
+         markerManagerSearch.hide()
+        $("#searchButton").val("Search");
+        jQuery("#searchInput").val('');
   }
 }
 
 
 
 function createOrgMarkerWithCount(info) {
+
   if(info.icon.length == 0)
   {
     //default image for orgs with no image attached to them
     info.icon = 'http://www.google.com/intl/en_us/mapfiles/ms/micons/blue-dot.png';
   }
   
-  if(info.icon.match(/http/i))
+  if(!info.icon.match(/http/i))
   {
     info.icon = document.location.protocol + '//' +
-              document.location.host + info.icon;
+              document.location.host + "/" + info.icon;
   }
+  
   
   
   

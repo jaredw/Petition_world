@@ -6,15 +6,11 @@
     <script type="text/javascript">
       document.write(
         '<script src="http://maps.google.com/maps?file=api&amp;v=2&amp;sensor=true&amp;key=' +
-        {
-          'localhost:8080': 'ABQIAAAAD8M9IMy5hGBBbqIohA4R4hTwM0brOpm-All5BF6PoaKBxRWWERQKBKqDm80in1RTu5PkBiNU5rC6TQ',
-          'www.corp.google.com': 'ABQIAAAAD8M9IMy5hGBBbqIohA4R4hRCgqPHFwXE2zePYmMJxuu4uk_b2xT9IjfnJgIf53UIW67eDyEQGkZn7w',
-          'showyourvote.org': 'ABQIAAAAD8M9IMy5hGBBbqIohA4R4hQ8ELJusaStVeLp-McODOsiHrSWGhTwoDA6OSVhixqIn2IyFPsBBWLRlA',
-          'show-your-vote.appspot.com': 'ABQIAAAA-O3c-Om9OcvXMOJXreXHAxRlOb26qSyU154aZeLwOrF4C7-DphSw7JoLuXrcDjUb_7h-S1txkSCY7A'
-        }[location.host] +
-        '" type="text/javascript"><\/script>'
+        js_api_key +
+        '"><\/script>'
       );
     </script>
+
 {% endblock %}
 {% block tabs %}
     <li class="ui-state-default ui-corner-top"><a href="/learn">Learn</a></li>
