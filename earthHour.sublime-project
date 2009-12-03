@@ -1,0 +1,9 @@
+<!-- Documentation is available at http://www.sublimetext.com/docs/projects -->
+<project>
+	<mount dir="." exclude=".gitignore" direxclude=".svn,.git,CVS,bin"/>
+	<options>
+<![CDATA[
+buildFile Packages/Python/Make.sublime-build
+]]>
+	</options>
+</project>
