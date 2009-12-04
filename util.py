@@ -205,6 +205,7 @@ def getTotals():
     logging.info("Memcache total miss: votes: %s countries: %s Orgs: %s" % (numVotesTotal, numCountries,numOrgs))
     return numVotesTotal, numCountries, numOrgs
 
+
 def getContinentVotes(continentCode):
   votesMemcache = memcache.get(models.MEMCACHE_VOTES + 'CONT_' + continentCode)
   if votesMemcache is not None:
@@ -213,6 +214,8 @@ def getContinentVotes(continentCode):
     numVotesTotal = 0
     for countryCode in geodata.continents[continentCode]["countries"]:
       numVotesTotal += getCountryVotes(countryCode)
+    
+    
     memcache.set(models.MEMCACHE_VOTES + 'CONT_' + continentCode, str(numVotesTotal), 300)
     return numVotesTotal
 
@@ -226,10 +229,25 @@ def getCountryVotes(countryCode):
     votesInCountry = getCountryVotesPerStateInStore(countryCode)
   elif countryHasPostcodes(countryCode):
     votesInCountry = getCountryVotesPerPostcodeInStore(countryCode)
-
+  
+  votesInCountry += getMassCountryVotes(countryCode)
   memcache.set(models.MEMCACHE_VOTES + countryCode, str(votesInCountry))
   return votesInCountry
 
+
+
+def getMassCountryVotes(countryCode):
+  votes = 0
+  votesMemcache = memcache.get(models.genKeyForMassVote() + countryCode)
+  if votesMemcache is not None:
+    return int(votesMemcache)
+  query = db.Query(models.MassVotes)  
+  result = query.filter('country =',countryCode).get()
+  if result is not None:
+    votes += int(result.counter)
+    memcache.set(models.genKeyForMassVote() + countryCode, str(result.counter))
+    
+  return votes
 
 def getStateVotes(countryCode, stateCode):
   votesMemcache = memcache.get(models.MEMCACHE_VOTES + countryCode + stateCode)
@@ -386,3 +404,18 @@ def getLatLong(location):
         return (result[2], result[3])
     else:
         return 'invalid','invalid'
+
+
+def addMassVotes(countryCode,countryVote):
+  memcache.delete(model.genKeyForMassVote() + countryCode)
+  query = db.Query(models.MassVotes)
+  result = query.filter('country =',countryCode).get()
+  logging.info(result)
+  if result is None:
+     mass = models.MassVotes()
+     mass.country = countryCode
+     mass.counter = countryVote
+     mass.put()
+  else:
+    result.counter += long(countryVote);
+    result.put()

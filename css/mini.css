@@ -110,11 +110,15 @@ p { margin: 10px 0; }
   font-weight: bold;  
   position: relative;
   height: 405px;
+  width: 294px;
 }
 
 #VoteForm legend {
   padding-bottom: 3px;
 }
+
+
+
 
 
 #VoteForm OL LI LABEL {
@@ -172,7 +176,7 @@ p { margin: 10px 0; }
   right:0;
   top:0;
   font-family: arial, sans-serif;
-font-size: 13px;
+  font-size: 13px;
 }
 
 #searchLogo

@@ -31,6 +31,10 @@ def genKeyForAllOrgsInfo():
   
 def genKeyForBoundedOrgs():
     return 'BOUNDED_ORGS'
+  
+def genKeyForMassVote():
+    return 'BOUNDED_ORGS'
+
 
 class PetitionSigner(db.Model):
   type = db.StringProperty()
@@ -70,7 +74,7 @@ class Country(db.Model):
   data = db.TextProperty()
   latlng = db.GeoPtProperty()
   
-class MassVotes:
+class MassVotes(db.Model):
     country = db.StringProperty()
     counter = db.IntegerProperty(default=0)
 

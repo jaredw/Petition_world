@@ -33,23 +33,23 @@
  <!-- map -->
  <div id="MapContainer" class="left">
   <div id="MapTop">
-   <div class="Search left">
-     <input type="text" id="searchInput" name="search">
-     <input type="Image" id="searchButton" SRC="images/large/search.png">
-	 <span id="cancel" style="display:none">Cancel<span>
-   </div>
-   <div class="Totals right">
-       <span id="votes_span"><span id="votes"></span>&nbsp;Votes</span>
-                <span id="countries_span" style="display:none"><span id="countries"></span>&nbsp;Countries</span>
-                <span id="orgs_span" style="display:none"><span id="orgs"></span>&nbsp;Organizations</span>
-   </div>
-  </div>
+       <div class="Search left" style="width:350px">
+         <input type="text" id="searchInput" name="search" style="float: left; margin-right: 10px;">
+           <div class="imageHolder" style="width:40px; float: left margin-bottom:10spx" >
+             <input type="Image" id="searchButton" SRC="images/large/search.png">
+           </div>
+       </div>
+       <div class="Totals right">
+           <span id="votes_span"><span id="votes"></span>&nbsp;Votes</span>
+            <span id="countries_span" style="display:none"><span id="countries"></span>&nbsp;Countries</span>
+        </div>
+    </div>
    <div id="vote_map" style="width: 620px; height: 395px; overflow:hidden;">
         <!-- map element -->
     </div>
  
   </div>
-  <div id="vote" class="right">
+  <div id="vote" class="left">
   <h1> Show your vote </h1>
     <form name="sign" id="sign" enctype="multipart/form-data" action="/add/signer" method="post" class="cmxform">
       <input type="hidden" name="website" value="{{ website }}" />

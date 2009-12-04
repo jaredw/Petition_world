@@ -23,41 +23,39 @@
 <!--    <script src="http://www.google.com/uds/solutions/videobar/gsvideobar.js?mode=new" type="text/javascript"></script> -->
 <!--    <script type="text/javascript" src="http://jquery.malsup.com/cycle/jquery.cycle.all.js"></script> -->
 {% endblock %}
-{% block tabs %}
-{% endblock %}
 {% block content %}
   <div id="explore">
-  <div id="MapTop">
-     <div class="Search left">
-       <input type="text" id="searchInput" name="search">
-       <input type="Image" id="searchButton" SRC="images/large/search.png">
-     </div>
-     <div class="Totals right">
-         <span id="votes_span"><span id="votes"></span>&nbsp;Votes</span>
-                  <span id="countries_span" style="display:none"><span id="countries"></span>&nbsp;Countries</span>
-                  <span id="orgs_span" style="display:none"><span id="orgs"></span>&nbsp;Organizations</span>
+    <div id="MapTop">
+       <div class="Search left" style="width:400px">
+         <input type="text" id="searchInput" name="search" style="float: left; margin-right: 10px;">
+           <div class="imageHolder" style="width:40px; float: left margin-bottom:10spx" >
+             <input type="Image" id="searchButton" SRC="images/large/search.png">
+           </div>
+       </div>
+       <div class="Totals right">
+           <span id="votes_span"><span id="votes"></span>&nbsp;Votes</span>
+            <span id="countries_span" style="display:none"><span id="countries"></span>&nbsp;Countries</span>
+            <span id="orgs_span" style="display:none"><span id="orgs"></span>&nbsp;Organizations</span>
+        </div>
     </div>
-    <div class="top">
-      <div class="left">
-       <br>
- <div id="explore_map"></div>
-  </div>
-<!--    <div class="bottom">
-      <a id="big_button" href="http://www.youtube.com/user/Cop15">
-      <img src="images/raise_your_voice.png" />
-      </a>
-      <div id="videoBar-bar">
-        <span style="color:#676767;font-size:11px;margin:10px;padding:4px;">Loading...</span>
+   <div id="explore_map"></div>
+  
+  <!--    <div class="bottom">
+        <a id="big_button" href="http://www.youtube.com/user/Cop15">
+        <img src="images/raise_your_voice.png" />
+        </a>
+        <div id="videoBar-bar">
+          <span style="color:#676767;font-size:11px;margin:10px;padding:4px;">Loading...</span>
+        </div>
+        <style type="text/css">
+          @import url("http://www.google.com/uds/css/gsearch.css");
+          @import url("http://www.google.com/uds/solutions/videobar/gsvideobar.css");
+          .playerInnerBox_gsvb .player_gsvb {
+            width : 320px;
+            height : 260px;
+          }
+        </style>
       </div>
-      <style type="text/css">
-        @import url("http://www.google.com/uds/css/gsearch.css");
-        @import url("http://www.google.com/uds/solutions/videobar/gsvideobar.css");
-        .playerInnerBox_gsvb .player_gsvb {
-          width : 320px;
-          height : 260px;
-        }
-      </style>
-    </div>
--->
-  </div>
+  -->
+</div>
 {% endblock %}

@@ -6,6 +6,11 @@ body {
 
 p { margin: 10px 0; }
 
+.Error
+{
+   color: red; 
+}
+
 #show_your_vote {
   overflow: hidden;
   width: 965px;
@@ -39,8 +44,9 @@ p { margin: 10px 0; }
 
 #MapTop
 {
-  padding-bottom: 7px;
   overflow: hidden;
+  margin-bottom: 7px;
+    margin-top: 7px;
 }
 
 .Search
@@ -52,16 +58,25 @@ p { margin: 10px 0; }
 {
   width: 201px;
   height: 20px;
-  padding-bottom: 10px;
   font-size: 14px;
 }
 
+#searchButton
+{
+
+}
+#MapTop .imageHolder
+{
+    height: 18px;
+    display: inline-block;
+}
 .Totals
 {
-  width: 319px;
+  width: 250px;
   background-color: white;
   height: 20px;
   padding-left: 10px;
+
 }
 
 .Totals span
@@ -76,7 +91,10 @@ p { margin: 10px 0; }
   width: 620px;
   height: 446px;
   background-color: #EFDCAC;
-  padding: 12px;
+  padding-top: 2px;
+  padding-left: 12px;
+  padding-right: 12px;
+  padding-bottom: 12px;
 }
 
 
@@ -114,12 +132,12 @@ p { margin: 10px 0; }
 
 #vote
 {
-  background-image: url('/images/large/FormBackground.png');
-  width: 272px;
+  background: url('/images/large/FormBackground.png') no-repeat left top;
+  width: 287px;
   height: 430px;
-  padding-left: 15px;
-  padding-top: 15px;
-  padding-right: 15px;
+  margin-left: 15px;
+  padding: 15px 0 0 15px;
+  display: inline;
   position: relative;
 }
 #vote h1
@@ -143,10 +161,11 @@ border: 1px solid #cccccc;
 }
 
 #vote form {
-  float: left;
   border: 0px solid #cccccc;
   margin: 2px 0 2px 0;
   padding: 5px;
+  overflow: hidden;
+  width: 
 }
 
 #vote #submit{
@@ -217,9 +236,11 @@ form.cmxform fieldset {
   margin-bottom: 10px;
   border: none;
   color: #F8EDD5;
+
 }
 form.cmxform fieldset p b {
   color: #F8EDD5;
+  width: 262px;
 }
 
 
@@ -242,6 +263,7 @@ form.cmxform fieldset ol {
   margin: 0;
   padding: 0;
 }
+
 
 form.cmxform fieldset li {
   list-style: none;

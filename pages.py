@@ -151,8 +151,9 @@ class UploadPage(webapp.RequestHandler):
          if len(line) > 1: 
            logging.info(line)
            countryCode = line[0]
-           countryVote = re.sub("\D",'',line[0])
+           countryVote = filter(lambda x: x.isdigit(), line[1])
            if countryCode in geodata.countries:
+              util.addMassVotes(countryCode,countryVote)
               self.response.out.write('uploaded %s votes for %s<br />' % ( countryVote,countryCode))
            else:
               self.response.out.write('invalid country code %s' % (countryCode))

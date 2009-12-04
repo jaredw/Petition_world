@@ -9,7 +9,7 @@ var visitorName = null;
 var locationId = "global";
 var voteMap;
 var toggler = 0;
-var maxZoomSeen = 0;
+var maxZoomSeen = 1;
 var countries;
 var orgs;
 var searchedOrgs;
@@ -107,12 +107,22 @@ function handleSubmit()
 }
 
 jQuery(document).ready(function() {
-  
-
-  jQuery('#show_your_vote').tabs('option', 'selected', 1);
-  loadNonce();
-  jQuery('.org').hide();
-  jQuery('#sign').validate();
+   loadNonce();
+   jQuery('.org').hide();
+   jQuery('#sign').validate({
+      //overwrite to change the way errors are reported
+      //the extra space was kinda hard to fit in the new forms 
+    showErrors: function(errorMap, errorList) {
+            if (errorList.length > 0) {
+                $(errorList).each(function() {
+                    $("[for='" +this.element.name + "']").addClass(" Error");
+                });
+            } else {
+                $(this.lastElement).each(function() {
+                    $("[for='" + this.id + "']").removeClass("Error");
+                });
+            }           
+  }});
 
   initVoteMap();
   initExploreMap(voteMap);
@@ -141,8 +151,6 @@ jQuery(document).ready(function() {
 
 function initVoteMap() {
   voteMap = new GMap2(jQuery("#vote_map")[0]);
-
-    
   //ensures this loads when the vote is submitted  
   var latlng = jQuery.cookie('latlng');
   if (latlng) {
@@ -151,7 +159,7 @@ function initVoteMap() {
   }
   else
   {
-      voteMap.setCenter(new GLatLng(0,180), 0);
+      voteMap.setCenter(new GLatLng(0,180), 1);
   }
   voteMap.setUIToDefault();
 }
@@ -263,7 +271,6 @@ function toggleForm(formValue) {
     jQuery('#email').rules('add', {required: true});
     jQuery('#streetinfo').rules('add', {required: true});
     jQuery('#org_name').rules('add', {required: true});
-    jQuery('#person_name').rules('remove');
     jQuery('.person').hide();
     jQuery('.org').show();
   } else {
@@ -271,7 +278,6 @@ function toggleForm(formValue) {
     jQuery('#email').rules('remove');
     jQuery('#streetinfo').rules('remove');
     jQuery('#org_name').rules('remove');
-    jQuery('#person_name').rules('add', {required: false});
     jQuery('.person').show();
   }
 }
