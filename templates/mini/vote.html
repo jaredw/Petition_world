@@ -43,10 +43,10 @@
               skin['CONTENT_SECONDARY_TEXT_COLOR'] = '#666666';
               skin['CONTENT_HEADLINE_COLOR'] = '#333333';
               skin['ALIGNMENT'] = 'right';
-             /* google.friendconnect.container.renderSignInGadget({
+              google.friendconnect.container.renderSignInGadget({
                 id: 'div-2912608371130852112',
                 site: site_id
-              }, skin);*/
+              }, skin);
           </script>
 {% endblock %}
 {% block content %}
@@ -71,7 +71,8 @@
           </li>
           <li class="person">
             <label for="person_name"><em>*</em>Name</label>
-            <input name="person_name" id="person_name" />
+			<span id="person_name_info">Checking...</span>
+            <input type="hidden" name="person_name" id="person_name" />
           </li>
           <li class="org">
             <label for="org_name"> <em>*</em> Organization</label>
@@ -117,8 +118,6 @@
     <!--    <input type="hidden" id="person_name" name="person_name"> -->
         <input TYPE="image" id="Submit" SRC="images/submitButton.png" ALT="Submit Form" />
       </fieldset>
-      
-      <!--TODO: position this button -->
       
       <div id="errmsg" style="color:#ff0000"></div>
     </form>

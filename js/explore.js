@@ -68,13 +68,13 @@ function loadVideoBar() {
 
 jQuery(document).ready(function() {
   window.setInterval(animateTotals, 4000);
-
   /* location of rpc_relay.html and canvas.html */
   google.friendconnect.container.setParentUrl('/gfc/');
   //loadVideoBar();
   initExploreMap();
   initSearch();
   jQuery("#closeBar").click(closeBar);
+  jQuery("#expandButton").click(expandBar);
   google.friendconnect.container.initOpenSocialApi({
     site: site_id,
     onload: function(securityToken) {
@@ -102,10 +102,20 @@ jQuery(document).ready(function() {
 });
 
 
+function expandBar(e)
+{
+    jQuery("#rightCol").show();
+    jQuery("#expandButton").hide();
+    jQuery("#explore_map").width(380);
+    exploreMap.checkResize();
+}
+
 function closeBar(e)
 {
   jQuery("#rightCol").hide();
   jQuery("#explore_map").width(570);
+  jQuery("#expandButton").show();
+  exploreMap.checkResize();
 }
 
 function initSearch() {
@@ -115,6 +125,21 @@ function initSearch() {
      orgs = data; 
   });
   jQuery("#searchButton").click(searchnNearOrgs);
+  
+  jQuery('#searchInput').click(function()
+   {
+       if(jQuery('#searchInput').val() == 'search the map')
+         jQuery('#searchInput').val('')
+   });
+   
+   jQuery('#searchInput').keydown(function()
+   {
+        if($("#searchButton").val() == "Cancel")
+        {
+              $("#searchButton").val("Search");
+        }
+    });
+    
 }
 
 function animateTotals() {
@@ -159,10 +184,6 @@ function initExploreMap() {
   handleBoundsChange();
   jQuery.getJSON("/info/totals", processTotals);
   
-
-
-  
-  
   GEvent.addListener(exploreMap, "infowindowopen", function() {
     var iw = exploreMap.getInfoWindow();
     window.setTimeout(function () {
@@ -202,10 +223,6 @@ function initExploreMap() {
           }, skin);
       });
    });
- 
-
- 
-   
 }
 
 function handleBoundsChange() {
@@ -417,14 +434,17 @@ function createItem(val)
 
 function searchnNearOrgs(name) {
   var orgName = jQuery("#searchInput").val();
-  
+
   if($("#searchButton").val() == "Search")
   {
 
     if(jQuery.inArray(orgName, orgs) > -1)
     {
+        ;
       var bounds = exploreMap.getBounds();
        /*
+       this is not longer needed, but may be useful code if the search does not function as desired
+       So going to leave it in, for at least one check in
       var countryCodes = [];
       for (countryCode in countriesInfo) {
         var countryInfo = countriesInfo[countryCode];
@@ -496,9 +516,9 @@ function searchnNearOrgs(name) {
   }
   else
   {
-         markerManager.show();
-         markerManagerSearch.clearMarkers()
-         markerManagerSearch.hide()
+        markerManager.show();
+        markerManagerSearch.clearMarkers()
+        markerManagerSearch.hide()
         $("#searchButton").val("Search");
         jQuery("#searchInput").val('');
   }
@@ -519,9 +539,6 @@ function createOrgMarkerWithCount(info) {
     info.icon = document.location.protocol + '//' +
               document.location.host + "/" + info.icon;
   }
-  
-  
-  
   
   
   var marker = new MarkerLight(new GLatLng(info.center[0], info.center[1]), createOrgIcon(info.icon));

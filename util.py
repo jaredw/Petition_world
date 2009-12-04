@@ -82,8 +82,7 @@ def addSignerToClusters(signer, extraLatLng):
     query.filter('country =', countryCode)
     query.filter('postcode =', postcode)
     result = query.get()
-    #this extra check will avoid us adding up 'empty' postcodes from the bulk upload only viewed at country level
-    if result is None and postcode != '':
+    if result is None:
       postcodecluster = models.Postcode()
       postcodecluster.postcode = postcode
       postcodecluster.state = stateCode
@@ -126,6 +125,13 @@ def getCountryVotesInStore(countryCode):
     return result.counter
   else:
     return -1
+    
+    
+def getCountryMassVotes(countryCode):
+    query = db.Query(models.MassVotes)
+    query.filter('country =',countryCode)
+    result = query.get()
+    
 
 def getCountryVotesPerStateInStore(countryCode):
   numVotesInCountry = 0
@@ -299,12 +305,13 @@ def getOrgsInCountryForName(countryCode,name):
         query.filter('type = ', 'org')
         query.filter('name = ', name)
         #have to query few times around if these ever exceed 1000
+        #can probably change the way the orgs are stored to improve this code
         results = query.fetch(1000)
         memcache.set(models.MEMCACHE_VOTES + countryCode + name,results)
         return results
 
 
-
+#TODO: remove 
 def getOrgsForName(name):
     orgs = memcache.get(models.MEMCACHE_VOTES  + name)
     if orgs is not None:
@@ -341,7 +348,7 @@ def addSignerFromDict(info):
      signer.type = 'person'
      signer.name = info['name']
      if info['city'] == '':
-        latLng = geodata.countries[countryCode]["center"]
+        latLng = geodata.countries[info['countryCode'].upper()]["center"]
      else:
         latLng = getLatLong('%s %s %s' % (info['city'],info['postcode'],info['countryCode']))
      #if this ever becomes a feature of the vote upload?

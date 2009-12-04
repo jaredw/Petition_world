@@ -180,22 +180,32 @@ class GetBoundedOrgs(webapp.RequestHandler):
   def get(self):
     self.response.headers.add_header('Cache-Control', 'no-cache, must-revalidate')
     self.response.headers.add_header('Expires', 'Sat, 26 Jul 1997 05:00:00 GMT')
+    cachedVal = memcache.get(models.genKeyForBoundedOrgs())
+    if cachedVal is not None:
+       self.response.out.write(cachedVal)
+    else:
     #countryCodes = self.request.get('countryCode').split('|')
-    name = self.request.get('name')
-    #bounds = self.request.get('bounds')
-    results = []
-    for code in geodata.countries.keys():
-      results.extend(util.getOrgsInCountryForName(code,name))
-   
+        name = self.request.get('name')
+        #bounds = self.request.get('bounds')
+        results = []
+        for code in geodata.countries.keys():
+          results.extend(util.getOrgsInCountryForName(code,name))
     
-    ret = lambda x : ((x.latlng.lat,x.latlng.lon),x.name , x.org_icon,)
-    
-    display = {}
-    totalResults = util.getUniqueWithCount(results,lambda y: str(y.latlng.lat) + str(y.latlng.lon),ret)
-    countryResults = util.getUniqueWithCount(results,lambda y: y.country ,lambda x : (geodata.countries[x.country]['center'],x.name,x.org_icon))
-    display['zoomed'] = totalResults
-    display['countryLevel'] = countryResults
-    self.response.out.write(simplejson.dumps(display))
+        logging.info(results)
+        ret = lambda x : ((x.latlng.lat,x.latlng.lon),x.name , x.org_icon)
+        display = {}
+        # this could be O(n) but this allows for easier changes to the retun object while i 
+        # develop and test the search feature 
+        #dict with unique locations
+        totalResults = util.getUniqueWithCount(results,lambda y: str(y.latlng.lat) + str(y.latlng.lon),ret)
+        #dict with unique countrys
+        countryResults = util.getUniqueWithCount(results,lambda y: y.country ,lambda x : (geodata.countries[x.country]['center'],x.name,x.org_icon))
+        display['zoomed'] = totalResults
+        display['countryLevel'] = countryResults
+        response = simplejson.dumps(display)
+        #5 mins seems to be the defacto
+        memcache.set(models.genKeyForBoundedOrgs(), response, 300)
+        self.response.out.write(response)
       
     
 class GetUniqueOrgs(webapp.RequestHandler):
@@ -214,18 +224,20 @@ class GetUniqueOrgs(webapp.RequestHandler):
       
       
 #get logos
+#TODO: memcache, browser cache should save most of this
+#especially since its being round tripped
 class LogoForOrg(webapp.RequestHandler):
-  #TODO: store resized images some where
   def get(self):
      orgName = self.request.get('orgName')
      logging.info(orgName)
      query = db.Query(models.PetitionSigner)
-     #result = query.filter('ID =',db.key(orgID)).get()
      result = query.filter('name =',orgName).get()
      if result is not None:
        if result.org_icon_hosted is not None:
           self.response.headers['Content-Type'] = "image/png"
-          image = images.resize(result.org_icon_hosted,32,32)
+          image = result.org_icon_hosted
           self.response.out.write(image)
+          
+        
      
     

@@ -279,7 +279,10 @@ function toggleForm(formValue) {
 
 
 
-/*duplicated from explore.js if time permits we should really move this into a class that takes a map instance as a dep */
+/*duplicated from explore.js will merge explore and vote into classes that 
+take a map instance as a dep this will allow for easy duplication of behaviours
+rather than repeated code
+*/
 
 function initSearch() {
   jQuery.getJSON("/info/orgName", function(data,text)
@@ -288,11 +291,6 @@ function initSearch() {
   });
   jQuery("#searchButton").click(searchnNearOrgs);
 }
-
-
-
-
-
 
 function createOrgIcon(url) {
   var opts = {};
@@ -699,9 +697,10 @@ function processTotals(json) {
   jQuery("#orgs").html(json.total.totalOrgs);
 }
 
+
+/* TODO: hook up the cancel button */
 function searchnNearOrgs(name) {
   var orgName = jQuery("#searchInput").val();
-  alert('searching');
   if(jQuery.inArray(orgName, orgs) > -1)
   {
     var bounds = voteMap.getBounds();

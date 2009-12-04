@@ -19,9 +19,10 @@ def main():
                                       ('/register', pages.RegisterPage),
                                       ('/embed', pages.EmbedPage),
                                       ('/debug', pages.DebugPage),
+                                      ('/upload', pages.UploadPage),
                                       ('/add/random', pages.RandomAddService),
                                       ('/add/signer', pages.SignerAddService),
-									                    ('/add/host', pages.HostAddService),
+									  ('/add/host', pages.HostAddService),
                                       ('/nonce', services.CryptographicNonceService),
                                       ('/info/votelocal', services.VotesInLocationService),
                                       ('/info/continents', services.ContinentsInfoService),
@@ -35,7 +36,6 @@ def main():
                                       ('/info/search', services.GetBoundedOrgs),
                                       ('/clearcache', pages.MemcacheClearer),
                                       ('/jsonimport', pages.JSONImport)
-
                                       ],
                                      debug=True)
   run_wsgi_app(application)

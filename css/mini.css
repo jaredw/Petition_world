@@ -98,7 +98,13 @@ p { margin: 10px 0; }
  margin-bottom: 3px;
 }
 
-
+#expandButton
+{
+  margin-right: 7px;
+  margin-top: 8px;
+  cursor: pointer;
+  
+}
 #VoteForm
 {
   font-weight: bold;  
@@ -112,7 +118,7 @@ p { margin: 10px 0; }
 
 
 #VoteForm OL LI LABEL {
- width: 85px;
+ width: 92px;
  height: 19px;
 }
 
@@ -138,7 +144,6 @@ p { margin: 10px 0; }
   float: left;
   padding-left: 8px;
   padding-right: 8px;
-  padding-top: px;
   padding-bottom: 6px;
   border: solid 1px black;
 }

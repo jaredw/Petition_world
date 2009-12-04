@@ -77,6 +77,8 @@ jQuery(document).ready(function() {
   loadNonce();
   jQuery('.org').hide();
   jQuery('#sign').validate({
+      //overwrite to change the way errors are reported
+      //the extra space was kinda hard to fit in the new forms 
     showErrors: function(errorMap, errorList) {
             if (errorList.length > 0) {
                 $(errorList).each(function() {
@@ -86,8 +88,7 @@ jQuery(document).ready(function() {
                 $(this.lastElement).each(function() {
                     $("[for='" + this.id + "']").removeClass("Error");
                 });
-            }
-                  
+            }           
   }});
   /* location of rpc_relay.html and canvas.html */
   google.friendconnect.container.setParentUrl('/gfc/');
@@ -153,7 +154,7 @@ function populateCountries() {
   for (var countryCode in countriesInfo) {
     var countryOption = jQuery(document.createElement('option'));
     countryOption.val(countryCode);
-    countryOption.text(countryCode + " - " + countriesInfo[countryCode].name);
+    countryOption.text(countriesInfo[countryCode].name);
     countrySelect.append(countryOption);
   }
 }

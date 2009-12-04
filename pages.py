@@ -3,7 +3,8 @@ import os
 import random
 import logging
 import hashlib
-
+import csv
+import re
 
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp.util import run_wsgi_app
@@ -12,6 +13,7 @@ from google.appengine.ext import db
 from google.appengine.ext import deferred
 from google.appengine.api import memcache
 from google.appengine.api import urlfetch
+from google.appengine.api import images
 
 from django.utils import simplejson
 
@@ -131,6 +133,31 @@ class HostAddService(webapp.RequestHandler):
         host.host_website
       )
     )
+    
+class UploadPage(webapp.RequestHandler):
+  def get(self):
+      self.response.out.write('<form enctype="multipart/form-data" method="post" action="/upload">')
+      self.response.out.write('<input type="file" name="csv" />')
+      self.response.out.write('<input type="submit" />')
+      self.response.out.write('</form>')
+  def post(self):
+      csvFile = self.request.get("csv")
+      logging.info(csvFile)
+      #for some reason app engine has no os.linesep?
+      #i am assuming something some where is taking care of line endings
+      reader = csv.reader(csvFile.split('\n'))
+      
+      for line in reader:
+         if len(line) > 1: 
+           logging.info(line)
+           countryCode = line[0]
+           countryVote = re.sub("\D",'',line[0])
+           if countryCode in geodata.countries:
+              self.response.out.write('uploaded %s votes for %s<br />' % ( countryVote,countryCode))
+           else:
+              self.response.out.write('invalid country code %s' % (countryCode))
+              #add some where
+              
 
 class DebugPage(webapp.RequestHandler):
   def get(self):
@@ -142,7 +169,7 @@ class DebugPage(webapp.RequestHandler):
     self.write("getCountryVotesInStore", util.getCountryVotesInStore(countryCode))
     self.write("getCountryVotesPerPostcodeInStore", util.getCountryVotesPerPostcodeInStore(countryCode))
     self.write("getCountryVotes", util.getCountryVotes(countryCode))
-    self.write("getTotalVotes", util.getTotalVotes())
+    self.write("getTotalVotes", util.getTotals())
     self.response.out.write("</table>")
     self.response.out.write("<form action=/addrandom?countryCode=AU method=get><input type=submit value=RandomAU></form>")
     self.response.out.write("<form action=/clearcache?countryCode=AU method=get><input type=submit value=ClearMemcacheAU></form>")
@@ -268,17 +295,15 @@ class SignerAddService(webapp.RequestHandler):
       signer.streetinfo = self.request.get('streetinfo')
       #keeps the javascript failing
       logo = self.request.get("org_icon")
-      logging.info(logo)
       #something some what sane for an image
       if len(logo) > 10:
-        signer.org_icon_hosted = db.Blob(logo)
+        signer.org_icon_hosted = db.Blob(images.resize(logo,32,32))
         signer.org_icon = 'info/logo?orgName=%s' % signer.name
       else:
         logging.info("no image added")
         #put an empty string in to stop it falling over
         signer.org_icon = str('')
   
-
     signer.city = self.request.get('city')
     signer.state = self.request.get('state')
     signer.country = self.request.get('country')
